@@ -2,7 +2,7 @@
 
 Roleta de filmes, batalha e leilão de donates para a live do [MeikodRJ](https://www.twitch.tv/meikodrj).
 
-**Abrir:** https://SEU-USUARIO.github.io/Meikod/
+**Abrir:** https://artmerico.github.io/Meikod/
 
 ## Como atualizar
 1. Troque o `index.html` pelo novo.
