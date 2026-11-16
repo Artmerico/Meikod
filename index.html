@@ -2056,15 +2056,15 @@ const GTA_DATE=new Date(2026,10,19,0,0,0);
    Todas as camadas da cena são 1920×1080 alinhadas:
    'cena/fundo' · 'meikod/base' · 'meikod/cab-touca' … · 'tilia/base' · 'tilia/rou-jaqueta' …
    Miniaturas dos itens (acessório sozinho): 'meikod/item-cab-touca' … */
-const GTA_HAVE=new Set(['cena/fundo','cena/base','cena/meikod-cbl-platinado','cena/meikod-cab-durag','cena/meikod-cab-bone','cena/meikod-cab-touca','meikod/base','meikod/cbl-raspado','meikod/cbl-platinado','meikod/cab-bandana','meikod/cab-durag','meikod/cab-bone','meikod/cab-touca','tilia/base']);
+const GTA_HAVE=new Set(['meikod/cbl-calvo','meikod/cbl-pintado','cena/meikod-cbl-calvo','cena/fundo','cena/base','cena/meikod-cbl-platinado','cena/meikod-cab-durag','cena/meikod-cab-bone','cena/meikod-cab-touca','meikod/base','meikod/cbl-raspado','meikod/cbl-platinado','meikod/cab-bandana','meikod/cab-durag','meikod/cab-bone','meikod/cab-touca','tilia/base']);
 /* faixa vertical (%) de cada item recortado — usada na animação do item surgindo de cima pra baixo */
-const GTA_BOX={"meikod/cbl-raspado": [2.9, 30.4], "meikod/cbl-platinado": [2.6, 31.1], "cena/meikod-cbl-platinado": [22.1, 46.0], "meikod/cab-bandana": [2.4, 31.4], "meikod/cab-durag": [2.2, 30.9], "meikod/cab-bone": [2.2, 28.2], "meikod/cab-touca": [0.3, 26.8], "cena/meikod-cab-durag": [21.5, 46.2], "cena/meikod-cab-bone": [20.8, 46.1], "cena/meikod-cab-touca": [20.9, 42.1]};
+const GTA_BOX={"meikod/cbl-raspado": [2.9, 30.4], "meikod/cbl-platinado": [2.6, 31.1], "cena/meikod-cbl-platinado": [22.1, 46.0], "meikod/cab-bandana": [2.4, 31.4], "meikod/cab-durag": [2.2, 30.9], "meikod/cab-bone": [2.2, 28.2], "meikod/cab-touca": [0.3, 26.8], "cena/meikod-cab-durag": [21.5, 46.2], "cena/meikod-cab-bone": [20.8, 46.1], "cena/meikod-cab-touca": [20.9, 42.1], "meikod/cbl-calvo": [2.8, 30.8], "meikod/cbl-pintado": [2.7, 31.6], "cena/meikod-cbl-calvo": [21.9, 46.0]};
 /* personagem com arte real: base inteira + cada item recortado (só a parte que muda) por cima */
 const gReal=ch=>GTA_HAVE.has(ch+'/base');
 const gHas=(ch,c,id)=>!gReal(ch)||id==='none'||((c==='rou'||c==='cbl')&&id==='base')||GTA_HAVE.has(ch+'/'+c+'-'+id);
 const GCH={
  meikod:{n:'MEIKOD',p:'Player 1',op:'50% 22%',cats:[
-  {k:'cbl',l:'Cabelo',ic:'💈',it:[['base','Degradê (atual)'],['raspado','Raspado'],['platinado','Platinado']]},
+  {k:'cbl',l:'Cabelo',ic:'💈',it:[['base','Degradê (atual)'],['raspado','Raspado'],['platinado','Platinado'],['calvo','Calvo com entradas'],['pintado','Testa pintada']]},
   {k:'cab',l:'Cabeça',ic:'🧢',it:[['none','Nada'],['touca','Touca branca'],['bone','Boné pra trás'],['durag','Durag preta'],['bandana','Bandana']]},
   {k:'ros',l:'Óculos',ic:'🕶',it:[['none','Nada'],['3d','Óculos 3D'],['escuro','Óculos escuros'],['aviador','Aviador dourado']]},
   {k:'pes',l:'Acessórios',ic:'🎧',it:[['none','Nada'],['headset','Headset gamer'],['ouro','Corrente de ouro'],['fino','Cordão prata']]},
@@ -2249,16 +2249,16 @@ function gTick(force){const box=$('#gcd');if(!box||pg!=='gta'||G.scr!=='title')r
   for(const k in v){const b=box.querySelector('[data-k='+k+']'),t=String(v[k]).padStart(2,'0');if(b&&gLast[k]!==t){gLast[k]=t;b.textContent=t;b.classList.remove('tk');void b.offsetWidth;b.classList.add('tk')}}}
 setInterval(()=>gTick(),1000);
 function gSelect(){const sc=$('#pgGta [data-s=select]');
-  sc.innerHTML='<button class="gbtn gback" data-g="title">← Início</button><div class="gsel"><h2>Escolha seu protagonista</h2><div class="gcards">'+Object.entries(GMODES).map(([k,m])=>
-   '<div class="gcard'+(G.mode===k?' sel':'')+'" data-mode="'+k+'" data-tilt=".6"><div class="gcin">'+sceneHTML(k)+'<div class="nm"><b>'+m.n+'</b><i>'+m.p+'</i></div><i class="shine"></i></div></div>').join('')+'</div></div>'+
+  sc.innerHTML='<button class="gbtn gback" data-g="title">← Início</button><div class="gsel"><h2>Escolha seu protagonista</h2><div class="gcards">'+SELK.map(k=>[k,GMODES[k]]).map(([k,m])=>
+   '<div class="gcard'+(G.ed===k?' sel':'')+'" data-mode="'+k+'" data-tilt=".6"><div class="gcin">'+sceneHTML(k)+'<div class="nm"><b>'+m.n+'</b><i>'+m.p+'</i></div><i class="shine"></i></div></div>').join('')+'</div></div>'+
    '<div class="ghint"><span><kbd>←</kbd><kbd>→</kbd>escolher</span><span><kbd>Enter</kbd>selecionar</span><span><kbd>Esc</kbd>voltar</span></div>'}
-function gCustom(pop){const sc=$('#pgGta [data-s=custom]');if(G.mode!=='duo')G.ed=G.mode;const c=GCH[G.ed],sel=G.sel[G.ed],cat=c.cats[G.cat]||c.cats[(G.cat=0)];
+function gCustom(pop){const sc=$('#pgGta [data-s=custom]');G.mode='duo';const c=GCH[G.ed],sel=G.sel[G.ed],cat=c.cats[G.cat]||c.cats[(G.cat=0)];
   if(!$('#gScn')){sc.innerHTML='<div class="gcbg" id="gScn"></div><button class="gbtn gback" data-g="select">← Trocar personagem</button><div class="gmode" id="gMode"></div>'+
    '<div class="gcu"><div class="gpanel gl" data-tilt=".5"><div class="gpin"><span class="gcu-h">Personalizar</span><div class="ged" id="gEd"></div><div class="gmenu" id="gMenu"></div><div class="gacts"><button class="gbtn dk" data-g="rand">🎲 Aleatório</button><button class="gbtn dk" data-g="reset">↺ Resetar</button></div></div><i class="shine"></i></div>'+
    '<div></div><div class="gpanel gr" data-tilt=".5"><div class="gpin"><span class="gcu-h" id="gCatT"></span><div class="ggrid" id="gGrid"></div><button class="gbtn pri" data-g="photo" style="width:100%;justify-content:center;margin-top:14px">📸 Tirar o fotão</button></div><i class="shine"></i></div></div>'+
    '<div class="ghint"><span><kbd>Q</kbd><kbd>E</kbd>categoria</span><span><kbd>←</kbd><kbd>→</kbd>item</span><span><kbd>R</kbd>aleatório</span><span><kbd>Enter</kbd>foto</span><span><kbd>Esc</kbd>voltar</span></div>'}
   gStage(pop);
-  $('#gMode').innerHTML=Object.entries(GMODES).map(([k,m])=>'<button class="'+(G.mode===k?'on':'')+'" data-mode2="'+k+'">'+m.n+'</button>').join('');
+  $('#gMode').innerHTML=SELK.map(k=>'<button class="'+(G.ed===k?'on':'')+'" data-mode2="'+k+'">'+GMODES[k].n+'</button>').join('');
   $('#gEd').innerHTML=G.mode==='duo'?'<span>Editando:</span>'+['meikod','tilia'].map(k=>'<button class="'+(G.ed===k?'on':'')+'" data-ed="'+k+'">'+GCH[k].n+'</button>').join(''):'<span>'+c.n+' · '+c.p+'</span>';
   $('#gMenu').innerHTML=c.cats.map((k,i)=>'<button class="'+(i===G.cat?'on':'')+'" data-cat="'+i+'"><i>'+k.ic+'</i>'+k.l+'<small>'+esc((k.it.find(t=>t[0]===sel[k.k])||['',''])[1])+'</small></button>').join('');
   $('#gCatT').textContent=cat.l;
@@ -2300,17 +2300,19 @@ async function drawPoster(cv){const x=cv.getContext('2d'),W=1920,H=1080,m=GMODES
   x.font='600 26px "Ubuntu Mono", monospace';x.fillStyle='rgba(255,230,245,.92)';x.fillText('GTA VI É COM O MEIKOD  ·  19.11.2026  ·  TWITCH.TV/'+chName().toUpperCase(),92,74);
   x.strokeStyle='rgba(255,255,255,.25)';x.lineWidth=2;x.strokeRect(30,30,W-60,H-60)}
 function gDownload(){const cv=$('#gCv');if(!cv)return;cv.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(G.mode==='duo'?'meikod-tilia':G.mode)+'-gta6-meikodrj.png';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('Fotão salvo ✓')},'image/png')}
-function gSetMode(k){if(G.mode===k)return;G.mode=k;G.ed=k==='duo'?G.ed:k;G.cat=0;gSave()}
+/* sempre os dois em cena: quem foi escolhido começa na frente, o outro em segundo plano */
+const SELK=['meikod','tilia'];
+function gSetMode(k){G.mode='duo';if(k!=='duo'&&G.ed!==k){G.ed=k;G.cat=0}gSave()}
 function gClick(e){const t=e.target;const gb=t.closest('[data-g]');if(gb){const g=gb.dataset.g;
    if(g==='rand')return gRand();if(g==='reset'){for(const ch of gChars(G.mode))G.sel[ch]={...GCH[ch].def};gSave();GSFX.back();return gCustom()}if(g==='dl')return gDownload();
    if(g==='select'&&G.scr==='title')GSFX.sel();else if(g==='title'||(g==='select'&&G.scr!=='title'))GSFX.back();return gGo(g)}
-  const cd=t.closest('[data-mode]');if(cd){gSetMode(cd.dataset.mode);$$('.gcard').forEach(x=>x.classList.toggle('sel',x.dataset.mode===G.mode));GSFX.ok();setTimeout(()=>gGo('custom'),250);return}
+  const cd=t.closest('[data-mode]');if(cd){gSetMode(cd.dataset.mode);$$('.gcard').forEach(x=>x.classList.toggle('sel',x.dataset.mode===G.ed));GSFX.ok();setTimeout(()=>gGo('custom'),250);return}
   const md=t.closest('[data-mode2]');if(md){gSetMode(md.dataset.mode2);GSFX.nav();gCustom();return}
   const ed=t.closest('[data-ed]');if(ed){if(G.ed!==ed.dataset.ed){G.ed=ed.dataset.ed;G.cat=0;gSave();GSFX.whoosh();gCustom()}return}
   const ct=t.closest('[data-cat]');if(ct){G.cat=+ct.dataset.cat;GSFX.nav();gCustom();return}
   const it=t.closest('[data-it]');if(it)gPick(it.dataset.it)}
 addEventListener('keydown',e=>{if(pg!=='gta'||G.scr==='title'||/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName)||$('.ov'))return;const k=e.key;
-  if(G.scr==='select'){const ks=Object.keys(GMODES);if(k==='ArrowLeft'||k==='ArrowRight'){gSetMode(ks[(ks.indexOf(G.mode)+(k==='ArrowRight'?1:ks.length-1))%ks.length]);GSFX.nav();$$('.gcard').forEach(x=>x.classList.toggle('sel',x.dataset.mode===G.mode))}else if(k==='Enter'){GSFX.ok();gGo('custom')}else if(k==='Escape'){GSFX.back();gGo('title')}else return}
+  if(G.scr==='select'){const ks=SELK;if(k==='ArrowLeft'||k==='ArrowRight'){gSetMode(ks[(ks.indexOf(G.ed)+(k==='ArrowRight'?1:ks.length-1))%ks.length]);GSFX.nav();$$('.gcard').forEach(x=>x.classList.toggle('sel',x.dataset.mode===G.ed))}else if(k==='Enter'){GSFX.ok();gGo('custom')}else if(k==='Escape'){GSFX.back();gGo('title')}else return}
   else if(G.scr==='custom'){const c=GCH[G.ed],cat=c.cats[G.cat],ids=cat.it.map(i=>i[0]),cur=ids.indexOf(G.sel[G.ed][cat.k]);
    if(k==='q'||k==='Q'||k==='ArrowUp'){G.cat=(G.cat+c.cats.length-1)%c.cats.length;GSFX.nav();gCustom()}else if(k==='e'||k==='E'||k==='ArrowDown'){G.cat=(G.cat+1)%c.cats.length;GSFX.nav();gCustom()}
    else if(k==='ArrowRight')gPick(ids[(cur+1)%ids.length]);else if(k==='ArrowLeft')gPick(ids[(cur+ids.length-1)%ids.length]);else if(k==='r'||k==='R')gRand();else if(k==='Tab'&&G.mode==='duo'){G.ed=G.ed==='meikod'?'tilia':'meikod';G.cat=0;GSFX.whoosh();gCustom()}else if(k==='Enter')gGo('photo');else if(k==='Escape'){GSFX.back();gGo('select')}else return}
@@ -2555,7 +2557,7 @@ function themeChrome(){const am=getComputedStyle(document.documentElement).getPr
   let lk=$('link[rel=icon]');if(!lk){lk=document.createElement('link');lk.rel='icon';lk.type='image/svg+xml';document.head.append(lk)}lk.href='data:image/svg+xml,'+encodeURIComponent(fav)}
 
 /* ================= atualização automática (GitHub Pages) ================= */
-const APP_V='2026.11.16.4';let updWant=null,updAsked=false;
+const APP_V='2026.11.16.5';let updWant=null,updAsked=false;
 function appIdle(){return !(pg==='gta'&&G.scr!=='title')&&!$('#palpop')&&!spinning&&!S.mt&&!obsCov&&!$('#op')&&!$('#ov')&&!$('#lei')&&!$('.intro')&&!$('.ov.mod')&&!(S.cd&&!S.cd.done)&&!(B.phase==='vote'||B.phase==='res'||B.phase==='tie')&&!A().open&&document.activeElement?.tagName!=='INPUT'}
 function doUpdate(v){save();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}flash('Atualizando o site','versão '+v);setTimeout(()=>location.replace(location.pathname+'?v='+encodeURIComponent(v)+location.hash),1200)}
 async function checkUpdate(){if(!/^https?:/.test(location.protocol))return;try{const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const j=await r.json();if(!j.v||j.v===APP_V)return;updWant=j.v;
