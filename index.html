@@ -1173,6 +1173,12 @@ body.thGta .card,body.thGta .hgc{border-color:#3a1f57}
 .op-wipe::after{content:"";position:absolute;left:0;right:0;top:100%;height:18vh;background:#070707}
 #op.out .op-wipe{animation:opWipe .56s cubic-bezier(.7,0,.25,1) forwards}
 @keyframes opWipe{0%{transform:translateY(101%)}42%{transform:translateY(0)}58%{transform:translateY(0)}100%{transform:translateY(-125%)}}
+.gt-scene.sc2 .gtbg{filter:blur(16px) brightness(.55);transform:scale(1.08)}
+.gt-scene.sc2 .gtc{transform:translateX(12%)}
+.scn.full img{object-position:58% 40%}
+.ggrid button img.hd{inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0;transform:scale(2.4);transform-origin:50% 4%;filter:none}
+.ggrid button.soon{opacity:.55}.ggrid button.soon img{filter:grayscale(1) opacity(.5)}
+.ggrid button span small{display:block;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7a2a8e;margin-top:2px}
 </style>
 </head>
 <body>
@@ -2025,6 +2031,7 @@ function lkBadge(){const n=S.links.q.length;$('#lkN').textContent=n?n:''}
 
 
 
+
 /* ================= INÍCIO — GTA VI É COM O MEIKOD ================= */
 // Rockstar: o jogo libera à meia-noite no horário local (PS5 e Xbox Series X|S) — 19/11/2026
 const GTA_DATE=new Date(2026,10,19,0,0,0);
@@ -2032,24 +2039,27 @@ const GTA_DATE=new Date(2026,10,19,0,0,0);
    Todas as camadas da cena são 1920×1080 alinhadas:
    'cena/fundo' · 'meikod/base' · 'meikod/cab-touca' … · 'tilia/base' · 'tilia/rou-jaqueta' …
    Miniaturas dos itens (acessório sozinho): 'meikod/item-cab-touca' … */
-const GTA_HAVE=new Set([]);
+const GTA_HAVE=new Set(['cena/fundo','cena/meikod-cbl-raspado','cena/meikod-cbl-platinado','meikod/cbl-raspado','meikod/cbl-platinado','tilia/cbl-base']);
+/* personagem com arte real: o cabelo troca a imagem inteira; os outros itens entram como camada (só a parte que muda) */
+const gReal=ch=>[...GTA_HAVE].some(k=>k.startsWith(ch+'/cbl-'));
+const gHas=(ch,c,id)=>!gReal(ch)||id==='none'||(c==='rou'&&id==='base')||GTA_HAVE.has(ch+'/'+c+'-'+id);
 const GCH={
- meikod:{n:'MEIKOD',p:'Player 1',op:'72% 40%',cats:[
-  {k:'cbl',l:'Cabelo',ic:'💈',it:[['base','Degradê (atual)'],['platinado','Loiro platinado'],['raspado','Raspado']]},
+ meikod:{n:'MEIKOD',p:'Player 1',op:'50% 22%',cats:[
+  {k:'cbl',l:'Cabelo',ic:'💈',it:[['base','Degradê (atual)'],['raspado','Raspado'],['platinado','Platinado']]},
   {k:'cab',l:'Cabeça',ic:'🧢',it:[['none','Nada'],['touca','Touca branca'],['bone','Boné pra trás'],['durag','Durag preta'],['bandana','Bandana']]},
   {k:'ros',l:'Óculos',ic:'🕶',it:[['none','Nada'],['3d','Óculos 3D'],['escuro','Óculos escuros'],['aviador','Aviador dourado']]},
   {k:'pes',l:'Acessórios',ic:'🎧',it:[['none','Nada'],['headset','Headset gamer'],['ouro','Corrente de ouro'],['fino','Cordão prata']]},
-  {k:'rou',l:'Roupa',ic:'👕',it:[['base','Camiseta preta'],['semcamisa','Sem camisa'],['merch','Camiseta MeikodRJ'],['regata','Regata branca'],['havai','Camisa florida']]}],
-  def:{cbl:'base',cab:'touca',ros:'3d',pes:'none',rou:'base'},pos:[1010,90,.99],cx:.73},
- tilia:{n:'TILIA',p:'Player 2',op:'38% 40%',cats:[
-  {k:'cbl',l:'Cabelo',ic:'💇',it:[['base','Liso solto'],['rabo','Rabo com trancinhas'],['coque','Coque alto']]},
+  {k:'rou',l:'Roupa',ic:'👕',it:[['base','Regata branca'],['preta','Camiseta preta'],['merch','Camiseta MeikodRJ'],['semcamisa','Camisa aberta'],['havai','Camisa florida']]}],
+  def:{cbl:'base',cab:'none',ros:'none',pes:'none',rou:'base'},pos:[1010,90,.99],cx:.498,sd:1},
+ tilia:{n:'TILIA',p:'Player 2',op:'50% 22%',cats:[
+  {k:'cbl',l:'Cabelo',ic:'💇',it:[['base','Rabo de cavalo'],['solto','Liso solto'],['coque','Coque alto']]},
   {k:'cab',l:'Cabeça',ic:'🧢',it:[['none','Nada'],['bone','Boné rosa'],['laco','Laço'],['tiara','Tiara dourada']]},
   {k:'ros',l:'Óculos',ic:'🕶',it:[['none','Nada'],['gatinho','Óculos gatinho'],['escuro','Óculos escuros'],['coracao','Óculos coração']]},
   {k:'pes',l:'Acessórios',ic:'🎧',it:[['none','Nada'],['fone','Fone de DJ'],['argola','Argolas douradas'],['choker','Choker']]},
-  {k:'rou',l:'Roupa',ic:'👚',it:[['base','Cropped preto'],['neon','Conjunto lima neon'],['corset','Corset branco'],['jaqueta','Jaqueta jeans']]}],
-  def:{cbl:'base',cab:'none',ros:'none',pes:'fone',rou:'base'},pos:[560,170,.9],cx:.48}};
+  {k:'rou',l:'Roupa',ic:'👚',it:[['base','Cropped rosa'],['neon','Conjunto lima neon'],['corset','Corset branco'],['jaqueta','Jaqueta jeans']]}],
+  def:{cbl:'base',cab:'none',ros:'none',pes:'none',rou:'base'},pos:[560,170,.9],cx:.506,sd:-1}};
 const GMODES={meikod:{n:'MEIKOD',p:'Player 1',op:GCH.meikod.op},tilia:{n:'TILIA',p:'Player 2',op:GCH.tilia.op},duo:{n:'OS DOIS',p:'Co-op',op:'55% 40%'}};
-const G=(()=>{let g={};try{g=JSON.parse(localStorage.getItem('cinemeikod.gta')||'{}')}catch(e){}const sel={};for(const k in GCH){sel[k]={...GCH[k].def,...(g.sel&&g.sel[k]||{})};for(const c of GCH[k].cats)if(!c.it.some(i=>i[0]===sel[k][c.k]))sel[k][c.k]=GCH[k].def[c.k]}
+const G=(()=>{let g={};try{g=JSON.parse(localStorage.getItem('cinemeikod.gta')||'{}')}catch(e){}const sel={};for(const k in GCH){sel[k]={...GCH[k].def,...(g.sel&&g.sel[k]||{})};for(const c of GCH[k].cats){const ok=id=>c.it.some(i=>i[0]===id)&&gHas(k,c.k,id);if(!ok(sel[k][c.k]))sel[k][c.k]=ok(GCH[k].def[c.k])?GCH[k].def[c.k]:(c.it.find(i=>ok(i[0]))||c.it[0])[0]}}
   const mode=GMODES[g.mode]?g.mode:'meikod';return{scr:'title',mode,ed:g.ed&&GCH[g.ed]?g.ed:(mode==='tilia'?'tilia':'meikod'),cat:0,sel}})();
 const gSave=()=>{try{localStorage.setItem('cinemeikod.gta',JSON.stringify({mode:G.mode,ed:G.ed,sel:G.sel}))}catch(e){}};
 const LAYERS=['rou','cbl','pes','ros','cab'];
@@ -2064,7 +2074,7 @@ function phInner(ch,k){const M=ch==='meikod',[s1,s2]=M?['#a9673f','#e2a37a']:['#
      '<path d="M282 342q3-125 118-130 115 5 118 130-18-62-118-66-100 4-118 66z" fill="'+hair+'"/><path d="M318 332q34-16 66 0M416 332q34-16 66 0" stroke="'+hair+'" stroke-width="11" fill="none" stroke-linecap="round"/>'+
      '<ellipse cx="350" cy="366" rx="19" ry="9" fill="#fff"/><ellipse cx="450" cy="366" rx="19" ry="9" fill="#fff"/><circle cx="352" cy="366" r="7" fill="#2b1a12"/><circle cx="452" cy="366" r="7" fill="#2b1a12"/><path d="M400 372q-6 40-18 52 18 10 36 0" stroke="#7c4529" stroke-width="5" fill="none"/>'+
      '<path d="M282 382q0 140 118 166 118-26 118-166-13 90-63 98-55-12-110 0-50-8-63-98z" fill="'+hair+'"/><path d="M350 447q50-24 100 0-50-6-100 0z" fill="'+hair+'"/><path d="M372 462q28 12 56 0" stroke="#5a2a20" stroke-width="7" fill="none" stroke-linecap="round"/>'+
-     '<path d="M80 1000c20-170 135-260 250-282q70 42 140 0c115 22 230 112 250 282z" fill="#141418"/><path d="M330 718q70 52 140 0" stroke="#26262c" stroke-width="12" fill="none"/>';
+     '<path d="M200 1000l36-190q22-64 66-80 98 90 196 0 44 16 66 80l36 190z" fill="#f1efe9"/><path d="M302 730q98 90 196 0" stroke="#d8d4cc" stroke-width="8" fill="none"/>';
    return D+'<path d="M250 330q0-170 150-170t150 170l26 440q-176 40-352 0z" fill="'+hair+'"/><path d="M130 1000c20-170 120-255 215-272h110c95 17 195 102 215 272z" fill="'+S+'"/><path d="M358 520v215q42 30 84 0V520z" fill="'+S+'"/>'+
      '<ellipse cx="400" cy="372" rx="112" ry="142" fill="'+S+'"/><path d="M288 334q12-136 112-140 100 4 112 140-42-78-112-70-70-8-112 70z" fill="'+hair+'"/><path d="M290 330q-10 120 6 220l-30 10q-20-130 24-230zM510 330q10 120-6 220l30 10q20-130-24-230z" fill="'+hair+'"/>'+
      '<path d="M322 334q30-12 60-2M418 332q30-10 60 2" stroke="'+hair+'" stroke-width="7" fill="none" stroke-linecap="round"/><ellipse cx="352" cy="368" rx="19" ry="10" fill="#fff"/><ellipse cx="448" cy="368" rx="19" ry="10" fill="#fff"/><circle cx="354" cy="369" r="7.5" fill="#3a2214"/><circle cx="450" cy="369" r="7.5" fill="#3a2214"/><path d="M330 360q20-14 44-4M426 356q24-10 44 4" stroke="#1a0f0a" stroke-width="5" fill="none"/>'+
@@ -2082,7 +2092,8 @@ function phInner(ch,k){const M=ch==='meikod',[s1,s2]=M?['#a9673f','#e2a37a']:['#
    't:cbl-coque':'<circle cx="400" cy="175" r="58" fill="'+hair+'"/><path d="M350 180q50-30 100 0" stroke="#2a150e" stroke-width="6" fill="none"/>',
    'pes-headset':'<path d="M296 650q104 80 208 0" stroke="#1d1d22" stroke-width="22" fill="none"/><ellipse cx="300" cy="648" rx="36" ry="46" fill="#26262c"/><ellipse cx="500" cy="648" rx="36" ry="46" fill="#26262c"/><ellipse cx="300" cy="648" rx="16" ry="24" fill="#c3f02b"/><ellipse cx="500" cy="648" rx="16" ry="24" fill="#c3f02b"/>',
    'pes-fone':'<path d="M300 640q100 76 200 0" stroke="#f2f2f2" stroke-width="18" fill="none"/><ellipse cx="300" cy="640" rx="38" ry="46" fill="#ff4fa3"/><ellipse cx="500" cy="640" rx="38" ry="46" fill="#ff4fa3"/><ellipse cx="300" cy="640" rx="18" ry="24" fill="#fff"/><ellipse cx="500" cy="640" rx="18" ry="24" fill="#fff"/>',
-   'm:rou-semcamisa':'<path d="M90 1000C110 820 220 730 330 712h140c110 18 220 108 240 288z" fill="'+S+'"/><g fill="none" stroke="#2a1a14" stroke-width="5" opacity=".7"><path d="M260 820q60-40 120 0M420 820q60-40 120 0M200 900q40 60 30 100M600 900q-40 60-30 100M400 760q-30 60 0 120 30-60 0-120"/><circle cx="300" cy="900" r="30"/><circle cx="500" cy="900" r="30"/></g>',
+   'm:rou-preta':'<path d="M80 1000c20-170 135-260 250-282q70 42 140 0c115 22 230 112 250 282z" fill="#141418"/><path d="M330 718q70 52 140 0" stroke="#26262c" stroke-width="12" fill="none"/>',
+   'm:rou-semcamisa':'<path d="M80 1000c20-170 135-260 250-282l20 60v222h-150zM720 1000c-20-170-135-260-250-282l-20 60v222h150z" fill="#1a1a20"/><g fill="none" stroke="#2a1a14" stroke-width="5" opacity=".7"><path d="M260 820q60-40 120 0M420 820q60-40 120 0M200 900q40 60 30 100M600 900q-40 60-30 100M400 760q-30 60 0 120 30-60 0-120"/><circle cx="300" cy="900" r="30"/><circle cx="500" cy="900" r="30"/></g>',
    'm:rou-merch':'<path d="M80 1000c20-170 135-260 250-282q70 42 140 0c115 22 230 112 250 282z" fill="#f1efe9"/><text x="400" y="900" text-anchor="middle" font-family="Impact,Arial Black,sans-serif" font-size="70" fill="#111">MEIKOD<tspan fill="#8fc21a">RJ</tspan></text>',
    'cab-bucket':'<path d="M262 330q8-150 138-156 130 6 138 156z" fill="#d8c9a3"/><path d="M222 336q178-50 356 0l-16 34q-162-40-324 0z" fill="#bfae86"/>',
    'cab-laco':'<path d="M400 190l-90-50q-20 40 0 80zM400 190l90-50q20 40 0 80z" fill="#ff4fa3"/><circle cx="400" cy="190" r="22" fill="#e23c8c"/>',
@@ -2113,10 +2124,17 @@ const THVB={cbl:'200 90 400 420',cab:'200 90 400 400',ros:'250 280 300 190',pes:
 function gThumb(ch,c,id){const key=ch+'/item-'+c+'-'+id;if(GTA_HAVE.has(key))return 'assets/gta/'+key+'.webp';if(id==='none'||id==='base')return '';return gSrcC[key]||(gSrcC[key]=durl(SVGH(THVB[c],phInner(ch,c+'-'+id))))}
 let PHBG='';
 function gBg(){if(GTA_HAVE.has('cena/fundo'))return 'assets/gta/cena/fundo.webp';if(!PHBG){const cv=document.createElement('canvas');cv.width=1920;cv.height=1080;drawSky(cv.getContext('2d'),true);PHBG=cv.toDataURL('image/jpeg',.86)}return PHBG}
-function sceneLayers(mode){const L=[gBg()];for(const ch of gChars(mode)){L.push(gSrc(ch,'base'));for(const c of LAYERS){const id=G.sel[ch][c];if(id&&id!=='none'&&id!=='base')L.push(gSrc(ch,c+'-'+id))}}return L}
-function sceneHTML(mode,pop,op){return '<div class="scn" style="--op:'+(op||GMODES[mode].op)+'">'+sceneLayers(mode).map(s=>'<img alt="" class="'+(pop&&s===pop?'pop':'')+'" src="'+s+'">').join('')+'</div>'}
+function gHasScene(){return [...GTA_HAVE].some(k=>k.startsWith('cena/meikod-cbl-'))}
+/* cena do Início (os dois no carro): imagem inteira pelo cabelo do Meikod + camadas dos outros itens (cena/<ch>-<cat>-<id>) */
+function gSceneL(){const id=G.sel.meikod.cbl,A=[...GTA_HAVE].filter(k=>k.startsWith('cena/meikod-cbl-'));
+  const b=GTA_HAVE.has('cena/meikod-cbl-'+id)?'cena/meikod-cbl-'+id:(A.find(k=>k.endsWith('-base'))||A[0]),L=['assets/gta/'+b+'.webp'];
+  for(const ch of ['tilia','meikod'])for(const c of LAYERS){const v=G.sel[ch][c];if(!v||v==='none'||v==='base'||(ch==='meikod'&&c==='cbl'))continue;const k='cena/'+ch+'-'+c+'-'+v;if(GTA_HAVE.has(k))L.push('assets/gta/'+k+'.webp')}return L}
+function sceneLayers(mode){if(mode==='duo'&&gHasScene())return gSceneL();const L=[gBg()];for(const ch of gChars(mode))L.push(...charLayers(ch));return L}
+function sceneHTML(mode,pop,op){return '<div class="scn'+(mode==='duo'&&gHasScene()?' full':'')+'" style="--op:'+(op||GMODES[mode].op)+'">'+sceneLayers(mode).map(s=>'<img alt="" class="'+(pop&&s===pop?'pop':'')+'" src="'+s+'">').join('')+'</div>'}
 
-function charLayers(ch){const L=[gSrc(ch,'base')];for(const c of LAYERS){const id=G.sel[ch][c];if(id&&id!=='none'&&id!=='base')L.push(gSrc(ch,c+'-'+id))}return L}
+function gBody(ch){const id=G.sel[ch].cbl;if(GTA_HAVE.has(ch+'/cbl-'+id))return 'assets/gta/'+ch+'/cbl-'+id+'.webp';const k=[...GTA_HAVE].find(k=>k.startsWith(ch+'/cbl-'));return 'assets/gta/'+k+'.webp'}
+function charLayers(ch){if(gReal(ch)){const L=[gBody(ch)];for(const c of LAYERS){const id=G.sel[ch][c];if(c!=='cbl'&&id&&id!=='none'&&id!=='base'&&GTA_HAVE.has(ch+'/'+c+'-'+id))L.push('assets/gta/'+ch+'/'+c+'-'+id+'.webp')}return L}
+  const L=[gSrc(ch,'base')];for(const c of LAYERS){const id=G.sel[ch][c];if(id&&id!=='none'&&id!=='base')L.push(gSrc(ch,c+'-'+id))}return L}
 /* ---- cenário (céu, sol, cidade, coqueiros) ---- */
 function palmD(){let d='M188 1000C198 760 232 520 300 300l18 4C256 520 222 760 212 1000z';const T=[310,300];
   [[-170,190],[-140,230],[-108,170],[-70,200],[-30,230],[0,210],[28,170]].forEach(([a,L])=>{const r=a*Math.PI/180,tx=T[0]+Math.cos(r)*L,ty=T[1]+Math.sin(r)*L+L*.45,mx=(T[0]+tx)/2,my=(T[1]+ty)/2-L*.18,nx=-Math.sin(r)*L*.16,ny=Math.cos(r)*L*.16;
@@ -2198,7 +2216,7 @@ function gShow(s){G.scr=s;const el=$('#pgGta');$$('.gsc',el).forEach(x=>x.classL
 function gGo(s){const w=$('#pgGta .gwipe');if(!w){G.scr=s;return}GSFX.whoosh();w.classList.remove('go');void w.offsetWidth;w.classList.add('go');setTimeout(()=>gShow(s),420)}
 function gTitle(){const sc=$('#pgGta [data-s=title]'),ch=chName();
   const tk=['GTA 6 É COM O MEIKOD','19 DE NOVEMBRO','FICA PREPARADO','PRIMEIRA VOLTA EM VICE CITY','CHAMA A GALERA','TWITCH.TV/'+ch.toUpperCase()];
-  sc.innerHTML='<div class="gt-scene"><img class="gtbg" alt="" src="'+gBg()+'"><div class="gtc">'+gChars('duo').map(c=>charLayers(c).map(s=>'<img alt="" src="'+s+'">').join('')).join('')+'</div></div>'+
+  sc.innerHTML=(gHasScene()?'<div class="gt-scene sc2"><img class="gtbg" alt="" src="'+gSceneL()[0]+'"><div class="gtc">'+gSceneL().map(s=>'<img alt="" src="'+s+'">').join('')+'</div></div>':'<div class="gt-scene"><img class="gtbg" alt="" src="'+gBg()+'"><div class="gtc">'+gChars('duo').map(c=>charLayers(c).map(s=>'<img alt="" src="'+s+'">').join('')).join('')+'</div></div>')+
    '<div class="gt-txt"><span class="gt-k" id="gtK"></span><h1 class="gt-h">GTA VI</h1><div class="gt-s">é com o Meikod</div>'+
    '<div class="gcd" id="gcd"></div><div class="gt-meta"><span>PS5 e Xbox Series X|S</span><span>libera à meia-noite</span></div>'+
    '<div class="gt-cta"><button class="gbtn pri" data-g="select">▶ Monte seu personagem</button></div></div>'+
@@ -2226,21 +2244,24 @@ function gCustom(pop){const sc=$('#pgGta [data-s=custom]');if(G.mode!=='duo')G.e
   $('#gEd').innerHTML=G.mode==='duo'?'<span>Editando:</span>'+['meikod','tilia'].map(k=>'<button class="'+(G.ed===k?'on':'')+'" data-ed="'+k+'">'+GCH[k].n+'</button>').join(''):'<span>'+c.n+' · '+c.p+'</span>';
   $('#gMenu').innerHTML=c.cats.map((k,i)=>'<button class="'+(i===G.cat?'on':'')+'" data-cat="'+i+'"><i>'+k.ic+'</i>'+k.l+'<small>'+esc((k.it.find(t=>t[0]===sel[k.k])||['',''])[1])+'</small></button>').join('');
   $('#gCatT').textContent=cat.l;
-  $('#gGrid').innerHTML=cat.it.map(([id,l])=>{const th=gThumb(G.ed,cat.k,id);return '<button class="'+(sel[cat.k]===id?'on':'')+'" data-it="'+id+'" data-tilt="1.4">'+(th?'<img alt="" src="'+th+'">':'<em>'+(id==='base'?cat.ic:'∅')+'</em>')+'<span>'+esc(l)+'</span><i class="shine"></i></button>'}).join('')}
+  $('#gGrid').innerHTML=cat.it.map(([id,l])=>{const rl=gReal(G.ed),ok=gHas(G.ed,cat.k,id),hd=rl&&cat.k==='cbl'&&ok,th=hd?'assets/gta/'+G.ed+'/cbl-'+id+'.webp':gThumb(G.ed,cat.k,id);return '<button class="'+(sel[cat.k]===id?'on':'')+(ok?'':' soon')+'" data-it="'+id+'" data-tilt="1.4">'+(th?'<img alt="" class="'+(hd?'hd':'')+'" src="'+th+'">':'<em>'+(id==='base'?cat.ic:'∅')+'</em>')+'<span>'+esc(l)+(ok?'':'<small>em breve</small>')+'</span><i class="shine"></i></button>'}).join('')}
 /* palco: personagem centralizado; no modo dos dois, o editado vem pra frente e o outro vai pra trás apagado */
 function gStage(pop){const sc=$('#gScn');let box=$('#gBox');
   if(!box){sc.innerHTML='<div class="gsbox" id="gBox"><img class="gbgimg" alt="" src="'+gBg()+'">'+['tilia','meikod'].map(c=>'<div class="gch off" data-c="'+c+'"></div>').join('')+'</div>';box=$('#gBox');requestAnimationFrame(()=>{gFit();gPlace(true)})}
   for(const g of $$('.gch',box)){const ch=g.dataset.c,L=charLayers(ch),sig=L.join('|');if(g._sig!==sig){g._sig=sig;g.innerHTML=L.map(s=>'<img alt="" class="'+(pop&&s===pop?'pop':'')+'" src="'+s+'">').join('')}}
   gFit();gPlace()}
-function gFit(){const sc=$('#gScn'),box=$('#gBox');if(!sc||!box)return;const r=sc.getBoundingClientRect();let w=r.width,h=w*9/16;if(h<r.height){h=r.height;w=h*16/9}box.style.width=w+'px';box.style.height=h+'px'}
+function gFit(){const sc=$('#gScn'),box=$('#gBox');if(!sc||!box)return;const r=sc.getBoundingClientRect();
+  /* palco cabe inteiro na altura (nunca corta a cabeça); o fundo continua cobrindo a tela toda */
+  let h=r.height,w=h*16/9;if(w>r.width*1.25){w=r.width*1.25;h=w*9/16}box.style.width=w+'px';box.style.height=h+'px';
+  const bg=box.querySelector('.gbgimg');if(bg){let cw=Math.max(r.width,w),ch=cw*9/16;if(ch<r.height){ch=r.height;cw=ch*16/9}Object.assign(bg.style,{left:((w-cw)/2)+'px',top:((h-ch)/2)+'px',width:cw+'px',height:ch+'px'})}}
 function gPlace(instant){const box=$('#gBox');if(!box)return;const W=box.clientWidth,on=gChars(G.mode);
   box.classList.toggle('duo',G.mode==='duo');
   for(const g of $$('.gch',box)){const ch=g.dataset.c,cx=GCH[ch].cx,vis=on.includes(ch),front=G.mode!=='duo'||ch===G.ed;
-   let tx=(.5-cx)*W,s=1.04,ty=0;if(vis&&!front){tx+=(cx<.6?-1:1)*W*.24;s=.74;ty=-W*.012}
+   let tx=(.5-cx)*W,s=gReal(ch)?.86:1.04,ty=0;if(vis&&!front){tx+=(GCH[ch].sd||(cx<.6?-1:1))*W*.24;s=gReal(ch)?.64:.74;ty=-W*.012}
    if(instant)g.style.transition='none';g.style.transform='translate('+tx.toFixed(1)+'px,'+ty.toFixed(1)+'px) scale('+s+')';g.classList.toggle('off',!vis);g.classList.toggle('back',vis&&!front);g.style.zIndex=front?3:2;if(instant){void g.offsetWidth;g.style.transition=''}}}
 addEventListener('resize',()=>{if(pg==='gta'&&G.scr==='custom'){gFit();gPlace(true)}});
-function gPick(id){const c=GCH[G.ed],cat=c.cats[G.cat];if(G.sel[G.ed][cat.k]===id)return;G.sel[G.ed][cat.k]=id;gSave();GSFX.item();gCustom(id==='none'||id==='base'?null:gSrc(G.ed,cat.k+'-'+id))}
-function gRand(){for(const ch of gChars(G.mode))GCH[ch].cats.forEach(k=>{G.sel[ch][k.k]=k.it[Math.floor(Math.random()*k.it.length)][0]});gSave();GSFX.rand();gCustom()}
+function gPick(id){const c=GCH[G.ed],cat=c.cats[G.cat];if(!gHas(G.ed,cat.k,id)){toast('Arte desse item ainda não chegou');return}if(G.sel[G.ed][cat.k]===id)return;G.sel[G.ed][cat.k]=id;gSave();GSFX.item();gCustom(id==='none'||id==='base'?null:(gReal(G.ed)?charLayers(G.ed).slice(-1)[0]:gSrc(G.ed,cat.k+'-'+id)))}
+function gRand(){for(const ch of gChars(G.mode))GCH[ch].cats.forEach(k=>{const A=k.it.filter(i=>gHas(ch,k.k,i[0]));G.sel[ch][k.k]=A[Math.floor(Math.random()*A.length)][0]});gSave();GSFX.rand();gCustom()}
 async function gPhoto(){const sc=$('#pgGta [data-s=photo]');sc.innerHTML='<div class="gflash"></div><div class="gph"><canvas id="gCv" width="1920" height="1080"></canvas><div class="gacts"><button class="gbtn pri" data-g="dl">⬇ Salvar o fotão</button><button class="gbtn" data-g="custom">✎ Mudar o visual</button><button class="gbtn" data-g="select">⇄ Trocar personagem</button><button class="gbtn" data-g="title">⌂ Início</button></div></div>';
   GSFX.shutter();await drawPoster($('#gCv'));setTimeout(()=>GSFX.ok(),250)}
 const loadImg=src=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src});
@@ -2510,7 +2531,7 @@ function themeChrome(){const am=getComputedStyle(document.documentElement).getPr
   let lk=$('link[rel=icon]');if(!lk){lk=document.createElement('link');lk.rel='icon';lk.type='image/svg+xml';document.head.append(lk)}lk.href='data:image/svg+xml,'+encodeURIComponent(fav)}
 
 /* ================= atualização automática (GitHub Pages) ================= */
-const APP_V='2026.11.15.7';let updWant=null,updAsked=false;
+const APP_V='2026.11.16.1';let updWant=null,updAsked=false;
 function appIdle(){return !(pg==='gta'&&G.scr!=='title')&&!$('#palpop')&&!spinning&&!S.mt&&!obsCov&&!$('#op')&&!$('#ov')&&!$('#lei')&&!$('.intro')&&!$('.ov.mod')&&!(S.cd&&!S.cd.done)&&!(B.phase==='vote'||B.phase==='res'||B.phase==='tie')&&!A().open&&document.activeElement?.tagName!=='INPUT'}
 function doUpdate(v){save();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}flash('Atualizando o site','versão '+v);setTimeout(()=>location.replace(location.pathname+'?v='+encodeURIComponent(v)+location.hash),1200)}
 async function checkUpdate(){if(!/^https?:/.test(location.protocol))return;try{const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const j=await r.json();if(!j.v||j.v===APP_V)return;updWant=j.v;
