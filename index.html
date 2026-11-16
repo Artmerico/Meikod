@@ -1196,6 +1196,13 @@ body.thGta .card,body.thGta .hgc{border-color:#3a1f57}
  transition:transform 1.05s cubic-bezier(.65,0,.25,1),filter 1.05s cubic-bezier(.65,0,.25,1),--fd 1.05s cubic-bezier(.65,0,.25,1),opacity .8s ease}
 .gch.back{filter:blur(3px) brightness(.45) saturate(.55) drop-shadow(0 0 30px rgba(255,79,163,0));--fd:14%}
 .gch:not(.back):not(.off){filter:blur(0px) brightness(1) saturate(1) drop-shadow(0 0 30px rgba(255,79,163,.35))}
+#pgGta img[src*="tilia/cbl-"],#pgGta img[src*="tilia-cbl-"]{filter:var(--hf,none)}
+.ggrid button.gsw em{position:absolute;inset:18% 22% 34%;border-radius:50%;background:#3a2418;box-shadow:inset 0 -8px 16px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.25)}
+.ghue{grid-column:1/-1;display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.45);font:700 10px/1 'Ubuntu Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#5a2a6e}
+.ghue.on{outline:2px solid var(--am,#ff4fa3)}
+.ghue input{-webkit-appearance:none;appearance:none;width:100%;height:14px;border-radius:99px;background:linear-gradient(90deg,#f33,#fb3,#ef3,#3e5,#3de,#36f,#a3f,#f3c,#f33);outline:0;cursor:pointer}
+.ghue input::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid #2a1035;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.ghue input::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid #2a1035}
 </style>
 </head>
 <body>
@@ -2061,7 +2068,7 @@ const GTA_HAVE=new Set(['meikod/cbl-calvo','meikod/cbl-pintado','cena/meikod-cbl
 const GTA_BOX={"meikod/cbl-raspado": [2.7, 13.2], "meikod/cbl-platinado": [2.4, 12.7], "cena/meikod-cbl-platinado": [23.1, 31.3], "meikod/cab-bandana": [2.2, 17.9], "meikod/cab-durag": [2.0, 23.4], "meikod/cab-bone": [1.9, 18.2], "meikod/cab-touca": [0.2, 16.5], "cena/meikod-cab-durag": [22.4, 39.4], "cena/meikod-cab-bone": [21.9, 33.9], "cena/meikod-cab-touca": [21.8, 33.2], "meikod/cbl-calvo": [2.4, 12.5], "meikod/cbl-pintado": [2.7, 12.5], "cena/meikod-cbl-calvo": [22.3, 30.7], "cena/meikod-cbl-pintado": [20.8, 28.9], "cena/meikod-cbl-raspado": [23.1, 31.5], "cena/meikod-cab-bandana": [22.9, 33.1], "meikod/ros-aviador": [9.7, 16.8], "cena/meikod-ros-aviador": [28.5, 34.0], "cena/meikod-ros-escuro": [28.5, 34.2], "meikod/ros-escuro": [9.2, 16.4], "cena/meikod-pes-headset": [36.6, 45.7], "meikod/pes-headset": [19.1, 33.2], "meikod/pes-fino": [22.4, 41.1], "cena/meikod-pes-fino": [39.2, 50.8], "cena/meikod-pes-ouro": [38.1, 52.5], "meikod/pes-ouro": [21.9, 41.1], "meikod/rou-merch": [22.1, 72.0], "cena/meikod-rou-merch": [38.9, 77.7], "cena/meikod-rou-preta": [39.0, 79.3], "meikod/rou-preta": [22.6, 72.9], "meikod/rou-semcamisa": [19.6, 85.8], "cena/meikod-rou-semcamisa": [37.0, 87.6], "meikod/rou-havai": [20.6, 83.7], "cena/meikod-rou-havai": [37.1, 86.6], "meikod/cab-touca-top": [5.6, 16.5], "cena/meikod-cab-touca-top": [23.7, 33.2], "cena/meikod-cab-bandana-top": [25.6, 33.1], "meikod/cab-bandana-top": [4.4, 17.9], "tilia/base": [5.7, 99.9], "tilia/cbl-rabo": [3.6, 61.5], "tilia/cbl-solto": [4.6, 38.7], "cena/tilia-cbl-solto": [26.1, 46.9], "cena/tilia-cbl-rabo": [24.8, 45.0]};
 /* personagem com arte real: base inteira + cada item recortado (só a parte que muda) por cima */
 const gReal=ch=>GTA_HAVE.has(ch+'/base');
-const gHas=(ch,c,id)=>!gReal(ch)||id==='none'||id==='careca'||((c==='rou'||c==='cbl')&&id==='base')||GTA_HAVE.has(ch+'/'+c+'-'+id);
+const gHas=(ch,c,id)=>!gReal(ch)||c==='cor'||id==='none'||id==='careca'||((c==='rou'||c==='cbl')&&id==='base')||GTA_HAVE.has(ch+'/'+c+'-'+id);
 const GCH={
  meikod:{n:'MEIKOD',p:'Player 1',op:'50% 22%',cats:[
   {k:'cbl',l:'Cabelo',ic:'💈',it:[['base','Degradê (atual)'],['raspado','Raspado'],['platinado','Platinado'],['calvo','Calvo com entradas'],['pintado','Testa pintada']]},
@@ -2072,11 +2079,11 @@ const GCH={
   def:{cbl:'base',cab:'none',ros:'none',pes:'none',rou:'base'},pos:[1010,90,.99],cx:.498,sd:1},
  tilia:{n:'TILIA',p:'Player 2',op:'50% 22%',cats:[
   {k:'cbl',l:'Cabelo',ic:'💇',it:[['rabo','Rabo de cavalo'],['solto','Liso solto'],['careca','Careca'],['coque','Coque alto']]},
-  {k:'cab',l:'Cabeça',ic:'🧢',it:[['none','Nada'],['bone','Boné rosa'],['laco','Laço'],['tiara','Tiara dourada']]},
+  {k:'cor',l:'Cor do cabelo',ic:'🎨',it:[['none','Natural'],['loiro','Loiro'],['ruivo','Ruivo'],['rosa','Rosa'],['roxo','Roxo'],['azul','Azul'],['verde','Verde'],['custom','Personalizada']]},
   {k:'ros',l:'Óculos',ic:'🕶',it:[['none','Nada'],['gatinho','Óculos gatinho'],['escuro','Óculos escuros'],['coracao','Óculos coração']]},
   {k:'pes',l:'Acessórios',ic:'🎧',it:[['none','Nada'],['fone','Fone de DJ'],['argola','Argolas douradas'],['choker','Choker']]},
   {k:'rou',l:'Roupa',ic:'👚',it:[['base','Cropped rosa'],['neon','Conjunto lima neon'],['corset','Corset branco'],['jaqueta','Jaqueta jeans']]}],
-  def:{cbl:'rabo',cab:'none',ros:'none',pes:'none',rou:'base'},pos:[560,170,.9],cx:.506,sd:-1}};
+  def:{cbl:'rabo',cab:'none',cor:'none',hue:300,ros:'none',pes:'none',rou:'base'},pos:[560,170,.9],cx:.506,sd:-1}};
 const GMODES={meikod:{n:'MEIKOD',p:'Player 1',op:GCH.meikod.op},tilia:{n:'TILIA',p:'Player 2',op:GCH.tilia.op},duo:{n:'OS DOIS',p:'Co-op',op:'55% 40%'}};
 const G=(()=>{let g={};try{g=JSON.parse(localStorage.getItem('cinemeikod.gta')||'{}')}catch(e){}const sel={};for(const k in GCH){sel[k]={...GCH[k].def,...(g.sel&&g.sel[k]||{})};for(const c of GCH[k].cats){const ok=id=>c.it.some(i=>i[0]===id)&&gHas(k,c.k,id);if(!ok(sel[k][c.k]))sel[k][c.k]=ok(GCH[k].def[c.k])?GCH[k].def[c.k]:(c.it.find(i=>ok(i[0]))||c.it[0])[0]}}
   const mode=GMODES[g.mode]?g.mode:'meikod';return{scr:'title',mode,ed:g.ed&&GCH[g.ed]?g.ed:(mode==='tilia'?'tilia':'meikod'),cat:0,sel}})();
@@ -2089,6 +2096,12 @@ const gLK=(ch,c)=>{if(c==='top'){const h=G.sel[ch].cab;return h&&h!=='none'?'cab
 /* acessório de cabeça esconde o cabelo (o cabelo continua escolhido e volta quando tira o acessório) */
 const gHatHides=(ch,c,pre)=>c==='cbl'&&G.sel[ch].cab&&G.sel[ch].cab!=='none'&&GTA_HAVE.has(pre+'cab-'+G.sel[ch].cab);
 const gChars=m=>m==='duo'?['tilia','meikod']:[m];
+/* cor do cabelo da Tilia: colore só a camada do cabelo (tela de montar, cena do Início, cards e fotão) */
+const HAIRC={loiro:48,ruivo:12,rosa:330,roxo:278,azul:215,verde:135};
+const HAIRSW={none:'#3a2418',loiro:'#d9b56a',ruivo:'#b5502a',rosa:'#ff5fa8',roxo:'#8a4dff',azul:'#3d7bff',verde:'#2fbf6a'};
+function gHairF(ch='tilia'){const s=G.sel[ch]||{},c=s.cor;if(!c||c==='none')return 'none';const h=c==='custom'?(+s.hue||0):HAIRC[c];
+  if(c==='loiro')return 'sepia(1) saturate(1.7) brightness(1.75) contrast(.95)';return 'sepia(1) saturate(4) hue-rotate('+Math.round(h-38)+'deg) brightness(1.18)'}
+function gHairApply(){const p=document.getElementById('pgGta');if(p)p.style.setProperty('--hf',gHairF())}
 
 /* ---- artes provisórias (SVG) — trocadas pelas artes reais quando chegarem ---- */
 function phInner(ch,k){const M=ch==='meikod',[s1,s2]=M?['#a9673f','#e2a37a']:['#b9785a','#f0b894'],hair=M?'#17110f':'#3a1f15';
@@ -2238,7 +2251,7 @@ function gTilt(e){const t=e.target.closest('[data-tilt]');if(!t)return;const r=t
 function gShow(s){G.scr=s;const el=$('#pgGta');$$('.gsc',el).forEach(x=>x.classList.toggle('on',x.dataset.s===s));$('#gmp').classList.toggle('min',s!=='title');
   ({title:gTitle,select:gSelect,custom:gCustom,photo:gPhoto})[s]()}
 function gGo(s){const w=$('#pgGta .gwipe');if(!w){G.scr=s;return}GSFX.whoosh();w.classList.remove('go');void w.offsetWidth;w.classList.add('go');setTimeout(()=>gShow(s),420)}
-function gTitle(){const sc=$('#pgGta [data-s=title]'),ch=chName();
+function gTitle(){gHairApply();const sc=$('#pgGta [data-s=title]'),ch=chName();
   const tk=['GTA 6 É COM O MEIKOD','19 DE NOVEMBRO','FICA PREPARADO','PRIMEIRA VOLTA EM VICE CITY','CHAMA A GALERA','TWITCH.TV/'+ch.toUpperCase()];
   sc.innerHTML=(gHasScene()?'<div class="gt-scene sc2"><img class="gtbg" alt="" src="'+gSceneL()[0]+'"><div class="gtc">'+gSceneL().map(s=>'<img alt="" src="'+s+'">').join('')+'</div></div>':'<div class="gt-scene"><img class="gtbg" alt="" src="'+gBg()+'"><div class="gtc">'+gChars('duo').map(c=>charLayers(c).map(s=>'<img alt="" src="'+s+'">').join('')).join('')+'</div></div>')+
    '<div class="gt-txt"><span class="gt-k" id="gtK"></span><h1 class="gt-h">GTA VI</h1><div class="gt-s">é com o Meikod</div>'+
@@ -2258,7 +2271,7 @@ function gSelect(){const sc=$('#pgGta [data-s=select]');
   sc.innerHTML='<button class="gbtn gback" data-g="title">← Início</button><div class="gsel"><h2>Escolha seu protagonista</h2><div class="gcards">'+SELK.map(k=>[k,GMODES[k]]).map(([k,m])=>
    '<div class="gcard'+(G.ed===k?' sel':'')+'" data-mode="'+k+'" data-tilt=".6"><div class="gcin">'+sceneHTML(k)+'<div class="nm"><b>'+m.n+'</b><i>'+m.p+'</i></div><i class="shine"></i></div></div>').join('')+'</div></div>'+
    '<div class="ghint"><span><kbd>←</kbd><kbd>→</kbd>escolher</span><span><kbd>Enter</kbd>selecionar</span><span><kbd>Esc</kbd>voltar</span></div>'}
-function gCustom(pop){const sc=$('#pgGta [data-s=custom]');G.mode='duo';const c=GCH[G.ed],sel=G.sel[G.ed],cat=c.cats[G.cat]||c.cats[(G.cat=0)];
+function gCustom(pop){gHairApply();const sc=$('#pgGta [data-s=custom]');G.mode='duo';const c=GCH[G.ed],sel=G.sel[G.ed],cat=c.cats[G.cat]||c.cats[(G.cat=0)];
   if(!$('#gScn')){sc.innerHTML='<div class="gcbg" id="gScn"></div><button class="gbtn gback" data-g="select">← Trocar personagem</button><div class="gmode" id="gMode"></div>'+
    '<div class="gcu"><div class="gpanel gl" data-tilt=".5"><div class="gpin"><span class="gcu-h">Personalizar</span><div class="ged" id="gEd"></div><div class="gmenu" id="gMenu"></div><div class="gacts"><button class="gbtn dk" data-g="rand">🎲 Aleatório</button><button class="gbtn dk" data-g="reset">↺ Resetar</button></div></div><i class="shine"></i></div>'+
    '<div></div><div class="gpanel gr" data-tilt=".5"><div class="gpin"><span class="gcu-h" id="gCatT"></span><div class="ggrid" id="gGrid"></div><button class="gbtn pri" data-g="photo" style="width:100%;justify-content:center;margin-top:14px">📸 Tirar o fotão</button></div><i class="shine"></i></div></div>'+
@@ -2268,7 +2281,7 @@ function gCustom(pop){const sc=$('#pgGta [data-s=custom]');G.mode='duo';const c=
   $('#gEd').innerHTML=G.mode==='duo'?'<span>Editando:</span>'+['meikod','tilia'].map(k=>'<button class="'+(G.ed===k?'on':'')+'" data-ed="'+k+'">'+GCH[k].n+'</button>').join(''):'<span>'+c.n+' · '+c.p+'</span>';
   $('#gMenu').innerHTML=c.cats.map((k,i)=>'<button class="'+(i===G.cat?'on':'')+'" data-cat="'+i+'"><i>'+k.ic+'</i>'+k.l+'<small>'+esc((k.it.find(t=>t[0]===sel[k.k])||['',''])[1])+'</small></button>').join('');
   $('#gCatT').textContent=cat.l;
-  $('#gGrid').innerHTML=cat.it.map(([id,l])=>{const rl=gReal(G.ed),ok=gHas(G.ed,cat.k,id),hd=rl&&ok&&id!=='none'&&(cat.k==='cbl'||GTA_HAVE.has(G.ed+'/'+cat.k+'-'+id)),th=hd?'assets/gta/'+G.ed+'/th-'+cat.k+'-'+id+'.webp'+gv():gThumb(G.ed,cat.k,id);return '<button class="'+(sel[cat.k]===id?'on':'')+(ok?'':' soon')+'" data-it="'+id+'" data-tilt="1.4">'+(th?'<img alt="" class="'+(hd?'hd':'')+'" src="'+th+'">':'<em>'+(id==='base'?cat.ic:'∅')+'</em>')+'<span>'+esc(l)+(ok?'':'<small>em breve</small>')+'</span><i class="shine"></i></button>'}).join('')}
+  if(cat.k==='cor'){const cs=sel.cor||'none';$('#gGrid').innerHTML='<label class="ghue'+(cs==='custom'?' on':'')+'"><span>Escolher no arco-íris</span><input type="range" id="gHueR" min="0" max="360" value="'+(+sel.hue||0)+'"></label>'+cat.it.filter(t=>t[0]!=='custom').map(([id,l])=>'<button class="gsw'+(cs===id?' on':'')+'" data-it="'+id+'" data-tilt="1.4"><em style="background:'+HAIRSW[id]+'"></em><span>'+esc(l)+'</span><i class="shine"></i></button>').join('');gHairApply()}else $('#gGrid').innerHTML=cat.it.map(([id,l])=>{const rl=gReal(G.ed),ok=gHas(G.ed,cat.k,id),hd=rl&&ok&&id!=='none'&&(cat.k==='cbl'||GTA_HAVE.has(G.ed+'/'+cat.k+'-'+id)),th=hd?'assets/gta/'+G.ed+'/th-'+cat.k+'-'+id+'.webp'+gv():gThumb(G.ed,cat.k,id);return '<button class="'+(sel[cat.k]===id?'on':'')+(ok?'':' soon')+'" data-it="'+id+'" data-tilt="1.4">'+(th?'<img alt="" class="'+(hd?'hd':'')+'" src="'+th+'">':'<em>'+(id==='base'?cat.ic:'∅')+'</em>')+'<span>'+esc(l)+(ok?'':'<small>em breve</small>')+'</span><i class="shine"></i></button>'}).join('')}
 /* palco: personagem centralizado; no modo dos dois, o editado vem pra frente e o outro vai pra trás apagado */
 function gStage(pop){const sc=$('#gScn');let box=$('#gBox');
   if(!box){sc.innerHTML='<div class="gsbox" id="gBox"><img class="gbgimg" alt="" src="'+gBg()+'">'+['tilia','meikod'].map(c=>'<div class="gch off" data-c="'+c+'"></div>').join('')+'</div>';box=$('#gBox');requestAnimationFrame(()=>{gFit();gPlace(true)})}
@@ -2297,7 +2310,7 @@ async function gPhoto(){const sc=$('#pgGta [data-s=photo]');sc.innerHTML='<div c
 const loadImg=src=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src});
 async function drawPoster(cv){const x=cv.getContext('2d'),W=1920,H=1080,m=GMODES[G.mode];
   try{await Promise.all(['120px Anton','90px Yellowtail','20px "Ubuntu Mono"'].map(f=>document.fonts.load(f)))}catch(e){}
-  const imgs=await Promise.all(sceneLayers(G.mode).map(loadImg));imgs.forEach((im,i)=>{if(!im)return;if(i===0)x.drawImage(im,0,0,W,H);else{x.save();x.shadowColor='rgba(255,79,163,.55)';x.shadowBlur=22;x.drawImage(im,0,0,W,H);x.restore()}});
+  const LL=sceneLayers(G.mode),imgs=await Promise.all(LL.map(loadImg));imgs.forEach((im,i)=>{if(!im)return;const hf=/tilia[-\/]cbl-/.test(LL[i])?gHairF():'none';if(i===0){x.filter=hf;x.drawImage(im,0,0,W,H);x.filter='none'}else{x.save();x.filter=hf;x.shadowColor='rgba(255,79,163,.55)';x.shadowBlur=22;x.drawImage(im,0,0,W,H);x.restore()}});
   const fd=x.createLinearGradient(0,H*.5,0,H);fd.addColorStop(0,'rgba(18,6,34,0)');fd.addColorStop(1,'rgba(18,6,34,.88)');x.fillStyle=fd;x.fillRect(0,0,W,H);
   const lf=x.createLinearGradient(0,0,W*.5,0);lf.addColorStop(0,'rgba(18,6,34,.55)');lf.addColorStop(1,'rgba(18,6,34,0)');x.fillStyle=lf;x.fillRect(0,0,W,H);
   const name=G.mode==='duo'?'MEIKOD + TILIA':m.n,fs=G.mode==='duo'?170:250;x.textBaseline='alphabetic';x.font=fs+'px Anton, Impact, sans-serif';const ng=x.createLinearGradient(0,H-fs-200,0,H-170);ng.addColorStop(0,'#ffffff');ng.addColorStop(.55,'#ffd0e6');ng.addColorStop(1,'#ff4fa3');
@@ -2317,6 +2330,8 @@ function gClick(e){const t=e.target;const gb=t.closest('[data-g]');if(gb){const 
   const ed=t.closest('[data-ed]');if(ed){if(G.ed!==ed.dataset.ed){G.ed=ed.dataset.ed;G.cat=0;gSave();GSFX.whoosh();gCustom()}return}
   const ct=t.closest('[data-cat]');if(ct){G.cat=+ct.dataset.cat;GSFX.nav();gCustom();return}
   const it=t.closest('[data-it]');if(it)gPick(it.dataset.it)}
+addEventListener('input',e=>{if(e.target.id!=='gHueR')return;const s=G.sel.tilia;s.cor='custom';s.hue=+e.target.value;gHairApply();$$('#gGrid .gsw').forEach(b=>b.classList.remove('on'));e.target.parentNode.classList.add('on');const m=$('#gMenu .on small');if(m)m.textContent='Personalizada'});
+addEventListener('change',e=>{if(e.target.id==='gHueR'){gSave();GSFX.item()}});
 addEventListener('keydown',e=>{if(pg!=='gta'||G.scr==='title'||/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName)||$('.ov'))return;const k=e.key;
   if(G.scr==='select'){const ks=SELK;if(k==='ArrowLeft'||k==='ArrowRight'){gSetMode(ks[(ks.indexOf(G.ed)+(k==='ArrowRight'?1:ks.length-1))%ks.length]);GSFX.nav();$$('.gcard').forEach(x=>x.classList.toggle('sel',x.dataset.mode===G.ed))}else if(k==='Enter'){GSFX.ok();gGo('custom')}else if(k==='Escape'){GSFX.back();gGo('title')}else return}
   else if(G.scr==='custom'){const c=GCH[G.ed],cat=c.cats[G.cat],ids=cat.it.map(i=>i[0]),cur=ids.indexOf(G.sel[G.ed][cat.k]);
@@ -2563,7 +2578,7 @@ function themeChrome(){const am=getComputedStyle(document.documentElement).getPr
   let lk=$('link[rel=icon]');if(!lk){lk=document.createElement('link');lk.rel='icon';lk.type='image/svg+xml';document.head.append(lk)}lk.href='data:image/svg+xml,'+encodeURIComponent(fav)}
 
 /* ================= atualização automática (GitHub Pages) ================= */
-const APP_V='2026.11.16.13';let updWant=null,updAsked=false;
+const APP_V='2026.11.16.14';let updWant=null,updAsked=false;
 function appIdle(){return !(pg==='gta'&&G.scr!=='title')&&!$('#palpop')&&!spinning&&!S.mt&&!obsCov&&!$('#op')&&!$('#ov')&&!$('#lei')&&!$('.intro')&&!$('.ov.mod')&&!(S.cd&&!S.cd.done)&&!(B.phase==='vote'||B.phase==='res'||B.phase==='tie')&&!A().open&&document.activeElement?.tagName!=='INPUT'}
 function doUpdate(v){save();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}flash('Atualizando o site','versão '+v);setTimeout(()=>location.replace(location.pathname+'?v='+encodeURIComponent(v)+location.hash),1200)}
 async function checkUpdate(){if(!/^https?:/.test(location.protocol))return;try{const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const j=await r.json();if(!j.v||j.v===APP_V)return;updWant=j.v;
