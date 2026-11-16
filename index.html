@@ -2056,9 +2056,9 @@ const GTA_DATE=new Date(2026,10,19,0,0,0);
    Todas as camadas da cena são 1920×1080 alinhadas:
    'cena/fundo' · 'meikod/base' · 'meikod/cab-touca' … · 'tilia/base' · 'tilia/rou-jaqueta' …
    Miniaturas dos itens (acessório sozinho): 'meikod/item-cab-touca' … */
-const GTA_HAVE=new Set(['meikod/cbl-calvo','meikod/cbl-pintado','cena/meikod-cbl-calvo','cena/fundo','cena/base','cena/meikod-cbl-platinado','cena/meikod-cab-durag','cena/meikod-cab-bone','cena/meikod-cab-touca','meikod/base','meikod/cbl-raspado','meikod/cbl-platinado','meikod/cab-bandana','meikod/cab-durag','meikod/cab-bone','meikod/cab-touca','tilia/base','cena/meikod-cbl-pintado','cena/meikod-cbl-raspado','cena/meikod-cab-bandana','meikod/ros-aviador','cena/meikod-ros-aviador','cena/meikod-ros-escuro','meikod/ros-escuro','cena/meikod-pes-headset','meikod/pes-headset','meikod/pes-fino','cena/meikod-pes-fino','meikod/pes-ouro','cena/meikod-pes-ouro','meikod/rou-merch','cena/meikod-rou-merch','meikod/rou-preta','cena/meikod-rou-preta','meikod/rou-semcamisa','cena/meikod-rou-semcamisa','meikod/rou-havai','cena/meikod-rou-havai']);
+const GTA_HAVE=new Set(['meikod/cbl-calvo','meikod/cbl-pintado','cena/meikod-cbl-calvo','cena/fundo','cena/base','cena/meikod-cbl-platinado','cena/meikod-cab-durag','cena/meikod-cab-bone','cena/meikod-cab-touca','meikod/base','meikod/cbl-raspado','meikod/cbl-platinado','meikod/cab-bandana','meikod/cab-durag','meikod/cab-bone','meikod/cab-touca','tilia/base','cena/meikod-cbl-pintado','cena/meikod-cbl-raspado','cena/meikod-cab-bandana','meikod/ros-aviador','cena/meikod-ros-aviador','cena/meikod-ros-escuro','meikod/ros-escuro','cena/meikod-pes-headset','meikod/pes-headset','meikod/pes-fino','cena/meikod-pes-fino','meikod/pes-ouro','cena/meikod-pes-ouro','meikod/rou-merch','cena/meikod-rou-merch','meikod/rou-preta','cena/meikod-rou-preta','meikod/rou-semcamisa','cena/meikod-rou-semcamisa','meikod/rou-havai','cena/meikod-rou-havai','meikod/cab-touca-top','cena/meikod-cab-touca-top','cena/meikod-cab-bandana-top','meikod/cab-bandana-top']);
 /* faixa vertical (%) de cada item recortado — usada na animação do item surgindo de cima pra baixo */
-const GTA_BOX={"meikod/cbl-raspado": [2.7, 13.2], "meikod/cbl-platinado": [2.4, 12.7], "cena/meikod-cbl-platinado": [23.1, 31.3], "meikod/cab-bandana": [2.2, 17.9], "meikod/cab-durag": [2.0, 23.4], "meikod/cab-bone": [1.9, 18.2], "meikod/cab-touca": [0.2, 16.4], "cena/meikod-cab-durag": [22.4, 39.4], "cena/meikod-cab-bone": [21.9, 33.9], "cena/meikod-cab-touca": [21.8, 33.7], "meikod/cbl-calvo": [2.4, 12.5], "meikod/cbl-pintado": [2.7, 12.5], "cena/meikod-cbl-calvo": [22.3, 30.7], "cena/meikod-cbl-pintado": [20.8, 28.9], "cena/meikod-cbl-raspado": [23.1, 31.5], "cena/meikod-cab-bandana": [22.9, 33.1], "meikod/ros-aviador": [9.7, 16.8], "cena/meikod-ros-aviador": [28.5, 34.0], "cena/meikod-ros-escuro": [28.4, 34.2], "meikod/ros-escuro": [9.0, 16.4], "cena/meikod-pes-headset": [36.6, 46.0], "meikod/pes-headset": [19.1, 33.5], "meikod/pes-fino": [22.4, 41.1], "cena/meikod-pes-fino": [39.2, 50.8], "cena/meikod-pes-ouro": [38.1, 52.6], "meikod/pes-ouro": [21.9, 41.4], "meikod/rou-merch": [22.1, 72.0], "cena/meikod-rou-merch": [38.9, 77.7], "cena/meikod-rou-preta": [39.0, 79.3], "meikod/rou-preta": [22.6, 72.9], "meikod/rou-semcamisa": [19.9, 85.8], "cena/meikod-rou-semcamisa": [37.0, 87.6], "meikod/rou-havai": [20.6, 83.7], "cena/meikod-rou-havai": [37.1, 86.6]};
+const GTA_BOX={"meikod/cbl-raspado": [2.7, 13.2], "meikod/cbl-platinado": [2.4, 12.7], "cena/meikod-cbl-platinado": [23.1, 31.3], "meikod/cab-bandana": [2.2, 17.9], "meikod/cab-durag": [2.0, 23.4], "meikod/cab-bone": [1.9, 18.2], "meikod/cab-touca": [0.2, 16.5], "cena/meikod-cab-durag": [22.4, 39.4], "cena/meikod-cab-bone": [21.9, 33.9], "cena/meikod-cab-touca": [21.8, 33.2], "meikod/cbl-calvo": [2.4, 12.5], "meikod/cbl-pintado": [2.7, 12.5], "cena/meikod-cbl-calvo": [22.3, 30.7], "cena/meikod-cbl-pintado": [20.8, 28.9], "cena/meikod-cbl-raspado": [23.1, 31.5], "cena/meikod-cab-bandana": [22.9, 33.1], "meikod/ros-aviador": [9.7, 16.8], "cena/meikod-ros-aviador": [28.5, 34.0], "cena/meikod-ros-escuro": [28.5, 34.2], "meikod/ros-escuro": [9.2, 16.4], "cena/meikod-pes-headset": [36.6, 45.7], "meikod/pes-headset": [19.1, 33.2], "meikod/pes-fino": [22.4, 41.1], "cena/meikod-pes-fino": [39.2, 50.8], "cena/meikod-pes-ouro": [38.1, 52.5], "meikod/pes-ouro": [21.9, 41.1], "meikod/rou-merch": [22.1, 72.0], "cena/meikod-rou-merch": [38.9, 77.7], "cena/meikod-rou-preta": [39.0, 79.3], "meikod/rou-preta": [22.6, 72.9], "meikod/rou-semcamisa": [19.6, 85.8], "cena/meikod-rou-semcamisa": [37.0, 87.6], "meikod/rou-havai": [20.6, 83.7], "cena/meikod-rou-havai": [37.1, 86.6], "meikod/cab-touca-top": [5.6, 16.5], "cena/meikod-cab-touca-top": [23.7, 33.2], "cena/meikod-cab-bandana-top": [25.6, 33.1], "meikod/cab-bandana-top": [4.4, 17.9]};
 /* personagem com arte real: base inteira + cada item recortado (só a parte que muda) por cima */
 const gReal=ch=>GTA_HAVE.has(ch+'/base');
 const gHas=(ch,c,id)=>!gReal(ch)||id==='none'||((c==='rou'||c==='cbl')&&id==='base')||GTA_HAVE.has(ch+'/'+c+'-'+id);
@@ -2081,9 +2081,11 @@ const GMODES={meikod:{n:'MEIKOD',p:'Player 1',op:GCH.meikod.op},tilia:{n:'TILIA'
 const G=(()=>{let g={};try{g=JSON.parse(localStorage.getItem('cinemeikod.gta')||'{}')}catch(e){}const sel={};for(const k in GCH){sel[k]={...GCH[k].def,...(g.sel&&g.sel[k]||{})};for(const c of GCH[k].cats){const ok=id=>c.it.some(i=>i[0]===id)&&gHas(k,c.k,id);if(!ok(sel[k][c.k]))sel[k][c.k]=ok(GCH[k].def[c.k])?GCH[k].def[c.k]:(c.it.find(i=>ok(i[0]))||c.it[0])[0]}}
   const mode=GMODES[g.mode]?g.mode:'meikod';return{scr:'title',mode,ed:g.ed&&GCH[g.ed]?g.ed:(mode==='tilia'?'tilia':'meikod'),cat:0,sel}})();
 const gSave=()=>{try{localStorage.setItem('cinemeikod.gta',JSON.stringify({mode:G.mode,ed:G.ed,sel:G.sel}))}catch(e){}};
-const LAYERS=['rou','cbl','pes','cab','ros'];
+const LAYERS=['rou','cbl','pes','cab','ros','top'];
 /* ordem das camadas: óculos por cima do que vai na cabeça; as camisas abertas ficam por cima das correntes */
-const gLayers=ch=>['semcamisa','havai'].includes(G.sel[ch].rou)&&G.sel[ch].pes!=='headset'?['cbl','pes','rou','cab','ros']:LAYERS;
+const gLayers=ch=>['semcamisa','havai'].includes(G.sel[ch].rou)&&G.sel[ch].pes!=='headset'?['cbl','pes','rou','cab','ros','top']:LAYERS;
+/* nome do arquivo de cada camada; 'top' é o pedaço da peça de cabeça que vai por cima dos óculos */
+const gLK=(ch,c)=>{if(c==='top'){const h=G.sel[ch].cab;return h&&h!=='none'?'cab-'+h+'-top':null}const v=G.sel[ch][c];return v&&v!=='none'&&v!=='base'?c+'-'+v:null};
 /* acessório de cabeça esconde o cabelo (o cabelo continua escolhido e volta quando tira o acessório) */
 const gHatHides=(ch,c,pre)=>c==='cbl'&&G.sel[ch].cab&&G.sel[ch].cab!=='none'&&GTA_HAVE.has(pre+'cab-'+G.sel[ch].cab);
 const gChars=m=>m==='duo'?['tilia','meikod']:[m];
@@ -2150,12 +2152,12 @@ function gBg(){if(GTA_HAVE.has('cena/fundo'))return 'assets/gta/cena/fundo.webp'
 function gHasScene(){return GTA_HAVE.has('cena/base')}
 /* cena do Início (os dois no carro): imagem inteira pelo cabelo do Meikod + camadas dos outros itens (cena/<ch>-<cat>-<id>) */
 function gSceneL(){const L=['assets/gta/cena/base.webp'+gv()];
-  for(const ch of ['tilia','meikod'])for(const c of gLayers(ch)){const v=G.sel[ch][c];if(!v||v==='none'||v==='base'||gHatHides(ch,c,'cena/'+ch+'-'))continue;const k='cena/'+ch+'-'+c+'-'+v;if(GTA_HAVE.has(k))L.push('assets/gta/'+k+'.webp'+gv())}return L}
+  for(const ch of ['tilia','meikod'])for(const c of gLayers(ch)){const n=gLK(ch,c);if(!n||gHatHides(ch,c,'cena/'+ch+'-'))continue;const k='cena/'+ch+'-'+n;if(GTA_HAVE.has(k))L.push('assets/gta/'+k+'.webp'+gv())}return L}
 function sceneLayers(mode){if(mode==='duo'&&gHasScene())return gSceneL();const L=[gBg()];for(const ch of gChars(mode))L.push(...charLayers(ch));return L}
 function sceneHTML(mode,pop,op){return '<div class="scn'+(mode==='duo'&&gHasScene()?' full':'')+'" style="--op:'+(op||GMODES[mode].op)+'">'+sceneLayers(mode).map(s=>'<img alt="" class="'+(pop&&s===pop?'pop':'')+'" src="'+s+'">').join('')+'</div>'}
 
 function gBody(ch){return 'assets/gta/'+ch+'/base.webp'+gv()}
-function charLayers(ch){if(gReal(ch)){const L=[gBody(ch)];for(const c of gLayers(ch)){const id=G.sel[ch][c];if(id&&id!=='none'&&id!=='base'&&!gHatHides(ch,c,ch+'/')&&GTA_HAVE.has(ch+'/'+c+'-'+id))L.push('assets/gta/'+ch+'/'+c+'-'+id+'.webp'+gv())}return L}
+function charLayers(ch){if(gReal(ch)){const L=[gBody(ch)];for(const c of gLayers(ch)){const n=gLK(ch,c);if(n&&!gHatHides(ch,c,ch+'/')&&GTA_HAVE.has(ch+'/'+n))L.push('assets/gta/'+ch+'/'+n+'.webp'+gv())}return L}
   const L=[gSrc(ch,'base')];for(const c of gLayers(ch)){const id=G.sel[ch][c];if(id&&id!=='none'&&id!=='base')L.push(gSrc(ch,c+'-'+id))}return L}
 /* ---- cenário (céu, sol, cidade, coqueiros) ---- */
 function palmD(){let d='M188 1000C198 760 232 520 300 300l18 4C256 520 222 760 212 1000z';const T=[310,300];
@@ -2272,10 +2274,10 @@ function gStage(pop){const sc=$('#gScn');let box=$('#gBox');
   if(!box){sc.innerHTML='<div class="gsbox" id="gBox"><img class="gbgimg" alt="" src="'+gBg()+'">'+['tilia','meikod'].map(c=>'<div class="gch off" data-c="'+c+'"></div>').join('')+'</div>';box=$('#gBox');requestAnimationFrame(()=>{gFit();gPlace(true)})}
   for(const g of $$('.gch',box)){const ch=g.dataset.c,L=charLayers(ch),sig=L.join('|');if(g._sig===sig)continue;const first=!g._sig;g._sig=sig;let h=g.querySelector('.gbr');if(!h){h=document.createElement('div');h.className='gbr';g.appendChild(h)}
    if(!gReal(ch)){h.innerHTML=L.map(s=>'<img alt="" class="'+(pop&&s===pop?'pop':'')+'" src="'+s+'">').join('');continue}
-   /* só o item que mudou entra (surgindo de cima pra baixo); o que saiu some suave; a base fica parada */
+   /* troca seca: espera as artes carregarem e só troca, sem piscar */
    Promise.all(L.map(loadImg)).then(()=>{if(g._sig!==sig)return;const cur=[...h.querySelectorAll('img:not(.out)')],have={};cur.forEach(im=>have[im.dataset.s]=im);
-    const keep=new Set(L);cur.forEach(im=>{if(!keep.has(im.dataset.s)){im.classList.add('out');h.appendChild(im);setTimeout(()=>im.remove(),420)}});
-    L.forEach((src,i)=>{let im=have[src];if(!im){im=new Image();im.alt='';im.src=src;im.dataset.s=src;const k=src.replace('assets/gta/','').replace(/\.webp.*$/,''),b=GTA_BOX[k]||[0,100];im.style.setProperty('--y0',b[0]+'%');im.style.setProperty('--y1',(100-b[1])+'%');if(!first&&i>0)im.classList.add('pop')}
+    const keep=new Set(L);cur.forEach(im=>{if(!keep.has(im.dataset.s))im.remove()});
+    L.forEach((src,i)=>{let im=have[src];if(!im){im=new Image();im.alt='';im.src=src;im.dataset.s=src;const k=src.replace('assets/gta/','').replace(/\.webp.*$/,''),b=GTA_BOX[k]||[0,100];im.style.setProperty('--y0',b[0]+'%');im.style.setProperty('--y1',(100-b[1])+'%');}
      const ref=h.querySelectorAll('img:not(.out)')[i];if(ref!==im)h.insertBefore(im,ref||h.querySelector('img.out'))})})}
   gFit();gPlace()}
 function gFit(){const sc=$('#gScn'),box=$('#gBox');if(!sc||!box)return;const r=sc.getBoundingClientRect();
@@ -2561,7 +2563,7 @@ function themeChrome(){const am=getComputedStyle(document.documentElement).getPr
   let lk=$('link[rel=icon]');if(!lk){lk=document.createElement('link');lk.rel='icon';lk.type='image/svg+xml';document.head.append(lk)}lk.href='data:image/svg+xml,'+encodeURIComponent(fav)}
 
 /* ================= atualização automática (GitHub Pages) ================= */
-const APP_V='2026.11.16.10';let updWant=null,updAsked=false;
+const APP_V='2026.11.16.11';let updWant=null,updAsked=false;
 function appIdle(){return !(pg==='gta'&&G.scr!=='title')&&!$('#palpop')&&!spinning&&!S.mt&&!obsCov&&!$('#op')&&!$('#ov')&&!$('#lei')&&!$('.intro')&&!$('.ov.mod')&&!(S.cd&&!S.cd.done)&&!(B.phase==='vote'||B.phase==='res'||B.phase==='tie')&&!A().open&&document.activeElement?.tagName!=='INPUT'}
 function doUpdate(v){save();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}flash('Atualizando o site','versão '+v);setTimeout(()=>location.replace(location.pathname+'?v='+encodeURIComponent(v)+location.hash),1200)}
 async function checkUpdate(){if(!/^https?:/.test(location.protocol))return;try{const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const j=await r.json();if(!j.v||j.v===APP_V)return;updWant=j.v;
