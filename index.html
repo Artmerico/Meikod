@@ -198,13 +198,14 @@ input::placeholder,textarea::placeholder{color:var(--dim)}
 
 /* ---------- rodapé ---------- */
 footer{display:flex;align-items:center;gap:12px;min-height:34px;padding:0 4px}
+body:not([data-pg=cine]) footer .tick{visibility:hidden}
 .soc{display:flex;gap:4px;flex:none}
 .soc a{font-family:var(--fm);font-size:10px;letter-spacing:.1em;padding:6px 9px;border:1px solid var(--line);color:var(--steel);text-transform:uppercase;background:rgba(12,14,20,.8);transition:.15s}
 .soc a:hover{border-color:var(--am);color:var(--am);transform:translateY(-2px);box-shadow:0 6px 16px rgba(var(--amr),.25)}
 .tick{flex:1;overflow:hidden;white-space:nowrap;font-family:var(--fm);font-size:10.5px;letter-spacing:.14em;color:var(--dim);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);text-transform:uppercase;min-width:0}
 .tick div{display:inline-block;animation:drift 50s linear infinite}
 .tick b{color:var(--am);font-weight:600}
-.cinefy{flex:none;font-size:11.5px;padding:6px 11px;border:1px solid #6b4a22;color:var(--gold);background:linear-gradient(90deg,#1d150c,transparent);white-space:nowrap}
+.cinefy{display:none!important;flex:none;font-size:11.5px;padding:6px 11px;border:1px solid #6b4a22;color:var(--gold);background:linear-gradient(90deg,#1d150c,transparent);white-space:nowrap}
 .cinefy:hover{border-color:var(--am);color:#fff}
 .cinefy b{font-family:var(--fd);letter-spacing:.1em}
 .credit{flex:none;display:flex;align-items:center;gap:7px;font-family:var(--fm);font-size:9.5px;letter-spacing:.16em;color:var(--steel);padding:4px 8px 4px 10px;border:1px solid var(--line);transition:.2s;white-space:nowrap}
@@ -776,6 +777,7 @@ body[data-pg=home] header .chip:not(.livec),body[data-pg=home] #bHelp{display:no
 .rc img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.95) brightness(.78) contrast(1.05)}
 .rcE{width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:12px;background:linear-gradient(160deg,#1b1f0b,#0a0a0a 60%);border:1px solid #2b3310}
 .rcE b{font-family:'Anton',Impact,sans-serif;font-weight:400;font-size:calc(var(--cw,160px)*.17);color:var(--am);line-height:1}.rcE i{font-style:normal;font-family:var(--fm);font-size:10px;letter-spacing:.4em;color:#777}
+.hxst .ring{border:0;border-radius:0;pointer-events:none}
 .hxst::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,4,4,.92) 0%,rgba(4,4,4,.25) 26%,transparent 45%,transparent 64%,rgba(4,4,4,.85) 86%,#040404 100%),radial-gradient(ellipse 70% 90% at 50% 55%,transparent 45%,rgba(4,4,4,.75) 100%)}
 .hxfig{position:absolute;z-index:3;left:50%;bottom:0;transform:translateX(-50%);height:88%;aspect-ratio:1184/1450;pointer-events:none;animation:hxIn 1.1s cubic-bezier(.2,.9,.2,1) both}
 @keyframes hxIn{from{opacity:0;transform:translate(-50%,40px) scale(.96)}}
@@ -1065,6 +1067,12 @@ body.thGta .card,body.thGta .hgc{border-color:#3a1f57}
 .gch.off{opacity:0}
 .gch:not(.back):not(.off){filter:drop-shadow(0 0 30px rgba(255,79,163,.35))}
 .gch img.pop{animation:lyPop .5s cubic-bezier(.2,1.4,.4,1)}
+
+.gt-scene .gtbg,.gt-scene .gtc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.gt-scene .gtc{position:absolute;inset:0;transform:translateX(9%);animation:gtcIn 1.2s cubic-bezier(.2,.9,.2,1) both}
+@keyframes gtcIn{from{opacity:0;transform:translateX(14%)}}
+.gt-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,6,24,.88) 0%,rgba(13,6,24,.55) 32%,transparent 55%),linear-gradient(0deg,rgba(13,6,24,.8),transparent 28%)}
+#pgGta.real .vshade{display:none}
 
 /* ================= ABERTURA (edit de entrada) ================= */
 #op{position:fixed;inset:0;z-index:99999;background:#060606;overflow:hidden;cursor:pointer;--l:var(--am,#c3f02b);--k:#070707;font-family:'Ubuntu Sans','Ubuntu','Arial Black',Impact,sans-serif;font-weight:800;color:#fff;user-select:none;-webkit-user-select:none;line-height:1}
@@ -2016,6 +2024,7 @@ function lkBadge(){const n=S.links.q.length;$('#lkN').textContent=n?n:''}
 
 
 
+
 /* ================= INÍCIO — GTA VI É COM O MEIKOD ================= */
 // Rockstar: o jogo libera à meia-noite no horário local (PS5 e Xbox Series X|S) — 19/11/2026
 const GTA_DATE=new Date(2026,10,19,0,0,0);
@@ -2181,24 +2190,24 @@ function renderGta(){const el=$('#pgGta');if(!el)return;
    '<div class="gsc" data-s="title"></div><div class="gsc" data-s="select"></div><div class="gsc" data-s="custom"></div><div class="gsc" data-s="photo"></div>'+gmpHTML()+'<div class="gwipe"></div>';
    el.addEventListener('scroll',()=>{el.scrollLeft=0;el.scrollTop=0});el.addEventListener('click',gClick);el.addEventListener('mouseover',e=>{const b=e.target.closest('.gcard,.gmenu button,.ggrid button,.gbtn,.gmode button');if(b&&b!==el._hov){el._hov=b;GSFX.hover()}});
    el.addEventListener('pointermove',gTilt);el.addEventListener('pointerout',e=>{const t=e.target.closest('[data-tilt]');if(t&&!t.contains(e.relatedTarget)){t.style.setProperty('--rx','0deg');t.style.setProperty('--ry','0deg');t.classList.remove('tl')}});wireGmp()}
-  el.classList.toggle('real',GTA_HAVE.has('cena/fundo'));gShow(G.scr,true)}
+  el.classList.add('real');gShow(G.scr,true)}
 function gTilt(e){const t=e.target.closest('[data-tilt]');if(!t)return;const r=t.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5,k=+t.dataset.tilt||1;
   t.classList.add('tl');t.style.setProperty('--rx',(-y*10*k).toFixed(2)+'deg');t.style.setProperty('--ry',(x*14*k).toFixed(2)+'deg');t.style.setProperty('--mx',((x+.5)*100).toFixed(1)+'%');t.style.setProperty('--my',((y+.5)*100).toFixed(1)+'%')}
 function gShow(s){G.scr=s;const el=$('#pgGta');$$('.gsc',el).forEach(x=>x.classList.toggle('on',x.dataset.s===s));$('#gmp').classList.toggle('min',s!=='title');
   ({title:gTitle,select:gSelect,custom:gCustom,photo:gPhoto})[s]()}
 function gGo(s){const w=$('#pgGta .gwipe');if(!w){G.scr=s;return}GSFX.whoosh();w.classList.remove('go');void w.offsetWidth;w.classList.add('go');setTimeout(()=>gShow(s),420)}
-function gTitle(){const sc=$('#pgGta [data-s=title]'),ch=chName(),real=GTA_HAVE.has('cena/fundo');
-  const tk=['GTA 6 É COM O MEIKOD','19 DE NOVEMBRO','AO VIVO NA TWITCH','FICA PREPARADO','PRIMEIRA VOLTA EM VICE CITY','CHAMA A GALERA','TWITCH.TV/'+ch.toUpperCase()];
-  sc.innerHTML=(real?'<div class="gt-scene">'+sceneHTML('duo',null,'60% 40%')+'</div>':'<div class="gt-art"><img alt="" src="'+heroImg()+'"></div>')+'<div class="gt-txt"><span class="gt-k" id="gtK"></span><h1 class="gt-h">GTA VI</h1><div class="gt-s">é com o Meikod</div>'+
-   '<p class="gt-p" id="gtP"></p><div class="gcd" id="gcd"></div><div class="gt-meta"><span>PS5 e Xbox Series X|S</span><span>libera à meia-noite</span><span>ao vivo na Twitch</span></div>'+
-   '<div class="gt-cta"><button class="gbtn pri" data-g="select">▶ Monte seu personagem</button><a class="gbtn" href="https://www.twitch.tv/'+esc(ch)+'" target="_blank" rel="noopener">Assistir na Twitch ↗</a></div></div>'+
+function gTitle(){const sc=$('#pgGta [data-s=title]'),ch=chName();
+  const tk=['GTA 6 É COM O MEIKOD','19 DE NOVEMBRO','FICA PREPARADO','PRIMEIRA VOLTA EM VICE CITY','CHAMA A GALERA','TWITCH.TV/'+ch.toUpperCase()];
+  sc.innerHTML='<div class="gt-scene"><img class="gtbg" alt="" src="'+gBg()+'"><div class="gtc">'+gChars('duo').map(c=>charLayers(c).map(s=>'<img alt="" src="'+s+'">').join('')).join('')+'</div></div>'+
+   '<div class="gt-txt"><span class="gt-k" id="gtK"></span><h1 class="gt-h">GTA VI</h1><div class="gt-s">é com o Meikod</div>'+
+   '<div class="gcd" id="gcd"></div><div class="gt-meta"><span>PS5 e Xbox Series X|S</span><span>libera à meia-noite</span></div>'+
+   '<div class="gt-cta"><button class="gbtn pri" data-g="select">▶ Monte seu personagem</button></div></div>'+
    '<div class="gtick"><div>'+tk.concat(tk).concat(tk).concat(tk).map(t=>'<span>'+esc(t)+'</span>').join('')+'</div></div>';gTick(true)}
 let gLast={};
-function gTick(force){const box=$('#gcd');if(!box||pg!=='gta'||G.scr!=='title')return;const ms=GTA_DATE-Date.now(),K=$('#gtK'),P=$('#gtP'),live=(S.live||{}).on;
-  if(ms<=0){if(force||!box._out){box._out=1;K.innerHTML='<b>●</b> JÁ SAIU — GTA VI';P.innerHTML=live?'O GTA 6 chegou e o <b>Meikod tá jogando agora</b>. Cola na live, que Vice City não espera ninguém.':'O GTA 6 chegou. A próxima live é <b>Vice City com o Meikod</b> — ativa o sininho na Twitch e fica ligado.';
+function gTick(force){const box=$('#gcd');if(!box||pg!=='gta'||G.scr!=='title')return;const ms=GTA_DATE-Date.now(),K=$('#gtK'),live=(S.live||{}).on;
+  if(ms<=0){if(force||!box._out){box._out=1;K.innerHTML='<b>●</b> JÁ SAIU — GTA VI';
     box.innerHTML='<div class="gcd-out">'+(live?'AO VIVO AGORA · <em>bora!</em>':'SAIU! <em>fica ligado</em>')+'</div>'}return}
   if(force||box._out||!box.children.length){box._out=0;gLast={};K.innerHTML='<b>●</b> 19 · 11 · 2026 — LANÇAMENTO';
-   P.innerHTML='Dia <b>19 de novembro</b> o Meikod abre o <b>GTA 6 ao vivo</b> na Twitch — primeira volta por Vice City, do jeito que só ele faz. Prepara o lanche, chama a galera e fica preparado: <b>GTA 6 é com o Meikod.</b>';
    box.innerHTML=[['d','DIAS'],['h','HORAS'],['m','MIN'],['s','SEG']].map(([k,l])=>'<div class="'+(k==='s'?'sec':'')+'"><b data-k="'+k+'">00</b><small>'+l+'</small></div>').join('')}
   const v={d:Math.floor(ms/864e5),h:Math.floor(ms/36e5)%24,m:Math.floor(ms/6e4)%60,s:Math.floor(ms/1e3)%60};
   for(const k in v){const b=box.querySelector('[data-k='+k+']'),t=String(v[k]).padStart(2,'0');if(b&&gLast[k]!==t){gLast[k]=t;b.textContent=t;b.classList.remove('tk');void b.offsetWidth;b.classList.add('tk')}}}
@@ -2317,10 +2326,10 @@ function renderHome(){const el=$('#pgHome');if(!el)return;autoOk();
   const SN=C.siteName||'MeikodRJ',[n1,n2]=nameParts(SN),ch=chName();
   if(!el._built){el._built=1;el.innerHTML='<div class="hx" id="hx"><div class="hxbg"></div><div class="hxst"><div class="ring" id="ring"></div></div><div class="hxfig"><img id="hxImg" alt=""></div><div class="hxfx"></div>'+
     '<div class="hxtop"><div class="hxk" id="hxK"></div><h1 class="hxH" id="hxH"></h1></div>'+
-    '<div class="hxmid"><p class="hxS">o chat escolhe, <em>a gente assiste.</em></p><div class="hxcta"><button class="pill pri" data-go2="cine">Abrir o CineMeikod <i>→</i></button><a class="pill" id="hxTw" target="_blank" rel="noopener">Assistir na Twitch ↗</a></div></div><div class="hxowe" id="hxOwe"></div>'+
+    '<div class="hxmid"><p class="hxS">o chat escolhe, <em>a gente assiste.</em></p><div class="hxcta"><button class="pill pri" data-go2="cine">Abrir o CineMeikod <i>→</i></button></div></div><div class="hxowe" id="hxOwe"></div>'+
     '<div class="hxL" id="hxL"></div><div class="hxR" id="hxR"></div><button class="hxdown" data-scroll="hsSeen">já assistidos <i>↓</i></button></div><div id="hsec"></div>';
     el.onclick=homeClick}
-  $('#hxImg').src=heroImg();$('#hxH').innerHTML=esc(n1)+(n2?'<span>'+esc(n2)+'</span>':'');$('#hxTw').href='https://www.twitch.tv/'+ch;
+  $('#hxImg').src=heroImg();$('#hxH').innerHTML=esc(n1)+(n2?'<span>'+esc(n2)+'</span>':'');
   const pend=S.watched.filter(w=>w.st==='pend'),paid=pend.filter(isPaid),ok=S.watched.filter(w=>w.st!=='pend');
   $('#hxOwe').innerHTML=paid.length?'<button class="owep" data-scroll="hsOwe"><b>⚠ '+(paid.length>1?paid.length+' FILMES PAGOS':'FILME PAGO')+' AINDA NÃO ASSISTIDO'+(paid.length>1?'S':'')+'</b><span>'+esc(paid[0].by)+' pagou '+brl(paid[0].amt||0)+' por '+esc(paid[0].t)+(paid.length>1?' e mais '+(paid.length-1):'')+' — ver ↓</span></button>':'';
   $('#hxR').innerHTML='<small>EM CARTAZ NA ROLETA</small><b>'+String(S.films.length).padStart(2,'0')+'</b><span>'+(S.films.length===1?'filme esperando':'filmes esperando a vez')+'</span>';
@@ -2501,7 +2510,7 @@ function themeChrome(){const am=getComputedStyle(document.documentElement).getPr
   let lk=$('link[rel=icon]');if(!lk){lk=document.createElement('link');lk.rel='icon';lk.type='image/svg+xml';document.head.append(lk)}lk.href='data:image/svg+xml,'+encodeURIComponent(fav)}
 
 /* ================= atualização automática (GitHub Pages) ================= */
-const APP_V='2026.11.15.6';let updWant=null,updAsked=false;
+const APP_V='2026.11.15.7';let updWant=null,updAsked=false;
 function appIdle(){return !(pg==='gta'&&G.scr!=='title')&&!$('#palpop')&&!spinning&&!S.mt&&!obsCov&&!$('#op')&&!$('#ov')&&!$('#lei')&&!$('.intro')&&!$('.ov.mod')&&!(S.cd&&!S.cd.done)&&!(B.phase==='vote'||B.phase==='res'||B.phase==='tie')&&!A().open&&document.activeElement?.tagName!=='INPUT'}
 function doUpdate(v){save();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}flash('Atualizando o site','versão '+v);setTimeout(()=>location.replace(location.pathname+'?v='+encodeURIComponent(v)+location.hash),1200)}
 async function checkUpdate(){if(!/^https?:/.test(location.protocol))return;try{const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const j=await r.json();if(!j.v||j.v===APP_V)return;updWant=j.v;
