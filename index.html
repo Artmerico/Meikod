@@ -2056,9 +2056,9 @@ const GTA_DATE=new Date(2026,10,19,0,0,0);
    Todas as camadas da cena são 1920×1080 alinhadas:
    'cena/fundo' · 'meikod/base' · 'meikod/cab-touca' … · 'tilia/base' · 'tilia/rou-jaqueta' …
    Miniaturas dos itens (acessório sozinho): 'meikod/item-cab-touca' … */
-const GTA_HAVE=new Set(['cena/fundo','cena/base','cena/meikod-cbl-platinado','meikod/base','meikod/cbl-raspado','meikod/cbl-platinado','tilia/base']);
+const GTA_HAVE=new Set(['cena/fundo','cena/base','cena/meikod-cbl-platinado','cena/meikod-cab-durag','cena/meikod-cab-bone','cena/meikod-cab-touca','meikod/base','meikod/cbl-raspado','meikod/cbl-platinado','meikod/cab-bandana','meikod/cab-durag','meikod/cab-bone','meikod/cab-touca','tilia/base']);
 /* faixa vertical (%) de cada item recortado — usada na animação do item surgindo de cima pra baixo */
-const GTA_BOX={"meikod/cbl-raspado": [2.9, 30.4], "meikod/cbl-platinado": [2.6, 31.1], "cena/meikod-cbl-platinado": [22.1, 46.0]};
+const GTA_BOX={"meikod/cbl-raspado": [2.9, 30.4], "meikod/cbl-platinado": [2.6, 31.1], "cena/meikod-cbl-platinado": [22.1, 46.0], "meikod/cab-bandana": [2.4, 31.4], "meikod/cab-durag": [2.2, 30.9], "meikod/cab-bone": [2.2, 28.2], "meikod/cab-touca": [0.3, 26.8], "cena/meikod-cab-durag": [21.5, 46.2], "cena/meikod-cab-bone": [20.8, 46.1], "cena/meikod-cab-touca": [20.9, 42.1]};
 /* personagem com arte real: base inteira + cada item recortado (só a parte que muda) por cima */
 const gReal=ch=>GTA_HAVE.has(ch+'/base');
 const gHas=(ch,c,id)=>!gReal(ch)||id==='none'||((c==='rou'||c==='cbl')&&id==='base')||GTA_HAVE.has(ch+'/'+c+'-'+id);
@@ -2262,7 +2262,7 @@ function gCustom(pop){const sc=$('#pgGta [data-s=custom]');if(G.mode!=='duo')G.e
   $('#gEd').innerHTML=G.mode==='duo'?'<span>Editando:</span>'+['meikod','tilia'].map(k=>'<button class="'+(G.ed===k?'on':'')+'" data-ed="'+k+'">'+GCH[k].n+'</button>').join(''):'<span>'+c.n+' · '+c.p+'</span>';
   $('#gMenu').innerHTML=c.cats.map((k,i)=>'<button class="'+(i===G.cat?'on':'')+'" data-cat="'+i+'"><i>'+k.ic+'</i>'+k.l+'<small>'+esc((k.it.find(t=>t[0]===sel[k.k])||['',''])[1])+'</small></button>').join('');
   $('#gCatT').textContent=cat.l;
-  $('#gGrid').innerHTML=cat.it.map(([id,l])=>{const rl=gReal(G.ed),ok=gHas(G.ed,cat.k,id),hd=rl&&cat.k==='cbl'&&ok&&GTA_HAVE.has(G.ed+'/'+(id==='base'?'base':'cbl-'+id)),th=hd?'assets/gta/'+G.ed+'/th-cbl-'+id+'.webp':gThumb(G.ed,cat.k,id);return '<button class="'+(sel[cat.k]===id?'on':'')+(ok?'':' soon')+'" data-it="'+id+'" data-tilt="1.4">'+(th?'<img alt="" class="'+(hd?'hd':'')+'" src="'+th+'">':'<em>'+(id==='base'?cat.ic:'∅')+'</em>')+'<span>'+esc(l)+(ok?'':'<small>em breve</small>')+'</span><i class="shine"></i></button>'}).join('')}
+  $('#gGrid').innerHTML=cat.it.map(([id,l])=>{const rl=gReal(G.ed),ok=gHas(G.ed,cat.k,id),hd=rl&&ok&&id!=='none'&&(cat.k==='cbl'||(cat.k==='cab'&&GTA_HAVE.has(G.ed+'/cab-'+id))),th=hd?'assets/gta/'+G.ed+'/th-'+cat.k+'-'+id+'.webp':gThumb(G.ed,cat.k,id);return '<button class="'+(sel[cat.k]===id?'on':'')+(ok?'':' soon')+'" data-it="'+id+'" data-tilt="1.4">'+(th?'<img alt="" class="'+(hd?'hd':'')+'" src="'+th+'">':'<em>'+(id==='base'?cat.ic:'∅')+'</em>')+'<span>'+esc(l)+(ok?'':'<small>em breve</small>')+'</span><i class="shine"></i></button>'}).join('')}
 /* palco: personagem centralizado; no modo dos dois, o editado vem pra frente e o outro vai pra trás apagado */
 function gStage(pop){const sc=$('#gScn');let box=$('#gBox');
   if(!box){sc.innerHTML='<div class="gsbox" id="gBox"><img class="gbgimg" alt="" src="'+gBg()+'">'+['tilia','meikod'].map(c=>'<div class="gch off" data-c="'+c+'"></div>').join('')+'</div>';box=$('#gBox');requestAnimationFrame(()=>{gFit();gPlace(true)})}
@@ -2555,7 +2555,7 @@ function themeChrome(){const am=getComputedStyle(document.documentElement).getPr
   let lk=$('link[rel=icon]');if(!lk){lk=document.createElement('link');lk.rel='icon';lk.type='image/svg+xml';document.head.append(lk)}lk.href='data:image/svg+xml,'+encodeURIComponent(fav)}
 
 /* ================= atualização automática (GitHub Pages) ================= */
-const APP_V='2026.11.16.3';let updWant=null,updAsked=false;
+const APP_V='2026.11.16.4';let updWant=null,updAsked=false;
 function appIdle(){return !(pg==='gta'&&G.scr!=='title')&&!$('#palpop')&&!spinning&&!S.mt&&!obsCov&&!$('#op')&&!$('#ov')&&!$('#lei')&&!$('.intro')&&!$('.ov.mod')&&!(S.cd&&!S.cd.done)&&!(B.phase==='vote'||B.phase==='res'||B.phase==='tie')&&!A().open&&document.activeElement?.tagName!=='INPUT'}
 function doUpdate(v){save();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}flash('Atualizando o site','versão '+v);setTimeout(()=>location.replace(location.pathname+'?v='+encodeURIComponent(v)+location.hash),1200)}
 async function checkUpdate(){if(!/^https?:/.test(location.protocol))return;try{const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const j=await r.json();if(!j.v||j.v===APP_V)return;updWant=j.v;
