@@ -14,8 +14,14 @@ h1{font-size:44px;line-height:1.05;margin:0 0 6px;letter-spacing:.02em;backgroun
 .prev{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 20px 60px rgba(0,0,0,.6);border:1px solid #2b2433}
 .prev iframe{position:absolute;left:0;top:0;width:1920px;height:1080px;border:0;transform-origin:0 0}
 .box{background:var(--card);border:1px solid #2b2433;border-radius:14px;padding:22px;margin-top:22px}
+.lbl{font-weight:800;margin-bottom:12px;font-size:18px}
+.opts{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.opt{display:flex;align-items:center;gap:8px;background:#0b0910;border:2px solid #3a3045;border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700}
+.opt.on{border-color:var(--rosa);background:#22121c}
+.opt input[type=radio]{accent-color:var(--rosa)}
+.opt input[type=number],.opt input[type=time]{background:#000;border:1px solid #3a3045;border-radius:6px;color:#fff;font:700 16px system-ui;padding:4px 6px;width:86px}
 .link{display:flex;gap:10px;flex-wrap:wrap}
-.link input{flex:1;min-width:260px;background:#0b0910;border:2px solid #3a3045;border-radius:10px;color:#fff;font:600 17px ui-monospace,Consolas,monospace;padding:14px}
+.link input{flex:1;min-width:260px;background:#0b0910;border:2px solid #3a3045;border-radius:10px;color:#fff;font:600 16px ui-monospace,Consolas,monospace;padding:14px}
 .btn{background:linear-gradient(90deg,var(--rosa),var(--lar));border:0;border-radius:10px;color:#140a12;font:800 17px system-ui;padding:14px 26px;cursor:pointer;text-transform:uppercase;letter-spacing:.05em}
 .btn.ok{background:#3ddc84}
 .tabs{display:flex;gap:8px;margin:28px 0 0}
@@ -39,8 +45,15 @@ b.k{background:#251d2e;border:1px solid #3a3045;border-radius:6px;padding:1px 8p
   <div class="prev" id="prev"><iframe id="pv" title="Prévia" allow="autoplay"></iframe></div>
 
   <div class="box">
-    <div style="font-weight:800;margin-bottom:10px">1. Copie este link</div>
+    <div class="lbl">1. Quer um contador regressivo no canto?</div>
+    <div class="opts">
+      <label class="opt on"><input type="radio" name="cd" value="nao" checked> Sem contador</label>
+      <label class="opt"><input type="radio" name="cd" value="min"> Contar <input type="number" id="min" value="10" min="1" max="180"> minutos</label>
+      <label class="opt"><input type="radio" name="cd" value="hora"> Até o horário <input type="time" id="hora" value="20:00"></label>
+    </div>
+    <div class="lbl">2. Copie este link</div>
     <div class="link"><input id="url" readonly><button class="btn" id="cp">Copiar link</button></div>
+    <p class="tip">"Contar minutos" começa a contar quando a cena abre no OBS. "Até o horário" conta até a hora marcada (relógio do PC).</p>
   </div>
 
   <div class="tabs"><button class="tab on" data-t="obs">OBS Studio</button><button class="tab" data-t="sl">Streamlabs</button></div>
@@ -48,7 +61,7 @@ b.k{background:#251d2e;border:1px solid #3a3045;border-radius:6px;padding:1px 8p
     <li>Na cena de Starting, no quadro <b class="k">Fontes</b>, clique no <b class="k">+</b> e escolha <b class="k">Navegador</b>. Dê um nome (ex.: Starting) e clique em OK.</li>
     <li>No campo <b class="k">URL</b>, apague o que estiver lá e cole o link que você copiou.</li>
     <li>Em <b class="k">Largura</b> coloque <b class="k">1920</b> e em <b class="k">Altura</b> coloque <b class="k">1080</b>.</li>
-    <li>Marque <b class="k">Atualizar navegador quando a cena se tornar ativa</b> (assim começa sempre do início).</li>
+    <li>Marque <b class="k">Atualizar navegador quando a cena se tornar ativa</b> (assim começa sempre do início e o contador reinicia).</li>
     <li>Clique em <b class="k">OK</b>. Se não ocupar a tela toda, clique com o botão direito na fonte › <b class="k">Transformar</b> › <b class="k">Ajustar à tela</b>.</li>
   </ol></div>
   <div class="steps hide" id="sl"><ol>
@@ -58,14 +71,20 @@ b.k{background:#251d2e;border:1px solid #3a3045;border-radius:6px;padding:1px 8p
     <li>Ative <b class="k">Atualizar navegador quando a cena ficar ativa</b> (Refresh browser when scene becomes active).</li>
     <li>Clique em <b class="k">Concluído</b>. Se não ocupar a tela toda, clique com o botão direito na fonte › <b class="k">Transformar</b> › <b class="k">Esticar à tela</b>.</li>
   </ol></div>
-  <p class="tip">Precisa de internet: os vídeos carregam do site. Na primeira vez pode levar alguns segundos pra tudo aparecer.</p>
+  <p class="tip">Precisa de internet: os vídeos carregam do site. Na primeira vez pode levar alguns segundos pra tudo aparecer. Pra mudar o contador depois, volte aqui, escolha de novo e cole o link novo na fonte.</p>
 </div>
 <script>
-const base=location.href.replace(/[^/]*([?#].*)?$/,'');const link=base+'index.html';
-document.getElementById('url').value=link;
-const pv=document.getElementById('pv');pv.src=link;
+const base=location.href.replace(/[^/]*([?#].*)?$/,'')+'index.html';
+const pv=document.getElementById('pv'),url=document.getElementById('url');
+function build(){const v=document.querySelector('input[name=cd]:checked').value;let q='';
+  if(v==='min')q='?contador='+Math.max(1,+document.getElementById('min').value||10);
+  if(v==='hora')q='?horario='+(document.getElementById('hora').value||'20:00');
+  document.querySelectorAll('.opt').forEach(o=>o.classList.toggle('on',o.querySelector('input[type=radio]').checked));
+  const l=base+q;if(url.value!==l){url.value=l;pv.src=l}}
+document.querySelectorAll('.opts input').forEach(i=>{i.addEventListener('input',()=>{if(i.type!=='radio')i.closest('.opt').querySelector('input[type=radio]').checked=true;build()})});
+build();
 function fit(){const w=document.getElementById('prev').clientWidth;pv.style.transform='scale('+(w/1920)+')'}addEventListener('resize',fit);fit();
-document.getElementById('cp').onclick=async function(){const i=document.getElementById('url');try{await navigator.clipboard.writeText(i.value)}catch(e){i.select();document.execCommand('copy')}this.textContent='Copiado!';this.classList.add('ok');setTimeout(()=>{this.textContent='Copiar link';this.classList.remove('ok')},2000)};
+document.getElementById('cp').onclick=async function(){try{await navigator.clipboard.writeText(url.value)}catch(e){url.select();document.execCommand('copy')}this.textContent='Copiado!';this.classList.add('ok');setTimeout(()=>{this.textContent='Copiar link';this.classList.remove('ok')},2000)};
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===t));document.getElementById('obs').classList.toggle('hide',t.dataset.t!=='obs');document.getElementById('sl').classList.toggle('hide',t.dataset.t!=='sl')});
 </script>
 </body>

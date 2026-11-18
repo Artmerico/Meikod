@@ -10,4 +10,11 @@ window.CONFIG = {
 
   /* andamento quando não tem música tocando */
   bpm: 120,
+
+  /* CONTADOR REGRESSIVO (opcional) — use só um dos dois:
+     contador: 10        → conta 10 minutos a partir de quando a cena abre
+     horario: '20:30'    → conta até esse horário
+     Deixe 0 e '' pra não mostrar contador. */
+  contador: 0,
+  horario: '',
 };
