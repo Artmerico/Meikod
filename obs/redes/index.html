@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Redes sociais — MeikodRJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Yellowtail&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#ff4f9a;--orange:#ff9a4a;--slab:rgba(16,10,24,var(--op,.88));--cut:14px}
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:transparent;font-family:"Barlow Condensed",system-ui,sans-serif;color:#fff}
+body.bg{background:#000 url(../preview.jpg) 0 0/1920px 1080px no-repeat}
+#w{position:absolute;transform-origin:0 0;display:flex;gap:10px;align-items:flex-start}
+#w.col{flex-direction:column}
+.pill{position:relative;display:flex;align-items:center;gap:12px;height:54px;padding:0 calc(var(--cut) + 16px) 0 8px;background:var(--slab);
+  clip-path:polygon(0 0,100% 0,calc(100% - var(--cut)) 100%,0 100%);overflow:hidden}
+.pill::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(180deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px),linear-gradient(90deg,rgba(255,255,255,.06),transparent 50%)}
+.ic{width:40px;height:40px;flex:none;display:grid;place-items:center;background:var(--c);clip-path:polygon(0 0,100% 0,calc(100% - 6px) 100%,0 100%)}
+.ic span{font:400 15px/1 Anton;letter-spacing:.04em;color:#120a14}
+.tx{display:flex;flex-direction:column;line-height:1}
+.tx small{font:800 12px/1 "Barlow Condensed";letter-spacing:.26em;color:var(--c);text-transform:uppercase}
+.tx b{font:700 26px/1.05 "Barlow Condensed";letter-spacing:.02em;white-space:nowrap}
+/* animado: um por vez */
+.anim .pill{position:absolute;left:0;top:0;animation:pin .6s cubic-bezier(.2,1.2,.4,1) both}
+.anim .pill.out{animation:pout .45s ease-in forwards}
+@keyframes pin{0%{clip-path:polygon(0 0,0 0,0 100%,0 100%)}100%{clip-path:polygon(0 0,100% 0,calc(100% - var(--cut)) 100%,0 100%)}}
+@keyframes pout{to{transform:translateY(-14px);opacity:0}}
+/* estático */
+.stat .pill{animation:pin .7s cubic-bezier(.2,1.2,.4,1) both}
+</style>
+</head>
+<body>
+<div id="w"></div>
+<script>
+const P=new URLSearchParams(location.search);
+const num=(k,d)=>P.has(k)&&P.get(k)!==''&&!isNaN(+P.get(k))?+P.get(k):d;
+const NET={tw:['TWITCH','#a970ff','TW'],ig:['INSTAGRAM','#ff5fa2','IG'],tt:['TIKTOK','#3fe0e0','TT'],x:['X','#e8e8e8','X'],yt:['YOUTUBE','#ff4b4b','YT'],kk:['KICK','#53fc18','KK'],dc:['DISCORD','#7d8cff','DC']};
+let L=[];try{L=JSON.parse(decodeURIComponent(escape(atob((P.get('r')||'').replace(/-/g,'+').replace(/_/g,'/')))))||[]}catch(e){}
+if(!L.length)L=[['tw','meikodrj'],['ig','@meikodrj'],['tt','@meikodrj']];
+const C={mode:P.get('m')==='s'?'s':'a',dir:P.get('d')==='c'?'col':'row',x:num('x',40),y:num('y',990),k:num('k',1),op:num('op',.88),t:num('t',6),gap:num('gap',0)};
+if(P.get('bg')==='1')document.body.classList.add('bg');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const W=document.getElementById('w');
+Object.assign(W.style,{left:C.x+'px',top:C.y+'px',transform:`scale(${C.k})`});W.style.setProperty('--op',C.op);
+const pill=([n,h])=>{const d=NET[n]||NET.tw;return `<div class="pill" style="--c:${d[1]}"><div class="ic"><span>${d[2]}</span></div><div class="tx"><small>${d[0]}</small><b>${esc(h)}</b></div></div>`};
+if(C.mode==='s'){
+  W.classList.add('stat',C.dir==='col'?'col':'row');
+  const show=()=>{W.innerHTML=L.map(pill).join('');[...W.children].forEach((e,i)=>e.style.animationDelay=(i*.12)+'s')};
+  show();
+  if(C.gap>0){ // aparece por alguns segundos a cada X minutos
+    setTimeout(function cyc(){W.style.opacity=0;setTimeout(()=>{W.style.opacity=1;show();setTimeout(cyc,C.t*1000*Math.max(1,L.length))},C.gap*60000)},C.t*1000*Math.max(1,L.length));
+    W.style.transition='opacity .5s'}
+}else{
+  W.classList.add('anim');let i=0;
+  function next(){const old=W.querySelector('.pill:not(.out)');if(old){old.classList.add('out');setTimeout(()=>old.remove(),450)}
+    if(i>=L.length){i=0;if(C.gap>0){setTimeout(next,C.gap*60000);return}}  // terminou a volta: com pausa, some e volta depois
+    W.insertAdjacentHTML('beforeend',pill(L[i]));i++;setTimeout(next,C.t*1000)}
+  next();
+}
+</script>
+</body>
+</html>

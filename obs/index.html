@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Overlays da live — MeikodRJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@500;600;700&family=Yellowtail&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#ff4f9a;--orange:#ff9a4a;--bg:#0c0a12;--card:#15111c;--line:#2b2436;--txt:#f1ecf6;--mut:#9e95ab}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 600px at 50% -10%,#2a1530,var(--bg));color:var(--txt);font:15px/1.45 Barlow,system-ui,sans-serif;min-height:100vh}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:22px 28px 0;flex-wrap:wrap}
+h1{margin:0;font:400 44px/1 Anton;letter-spacing:.02em;background:linear-gradient(180deg,#fff 30%,#ffc3dd 60%,var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 i{font:400 34px Yellowtail;font-style:normal;margin-left:10px;color:#fff;-webkit-text-fill-color:#fff;text-shadow:0 0 14px rgba(255,79,154,.6)}
+.sub{color:var(--mut);margin:6px 0 0}
+nav{display:flex;gap:6px;padding:18px 28px 0;flex-wrap:wrap}
+nav button{background:#14111a;border:2px solid var(--line);border-bottom:0;color:var(--mut);font:800 16px "Barlow Condensed";letter-spacing:.14em;text-transform:uppercase;padding:12px 22px;cursor:pointer;clip-path:polygon(0 0,100% 0,calc(100% - 10px) 100%,0 100%);padding-right:30px}
+nav button.on{color:#170a14;background:linear-gradient(90deg,var(--pink),var(--orange));border-color:transparent}
+.tab{display:none;grid-template-columns:minmax(0,1fr) 380px;gap:20px;padding:16px 28px 40px;border-top:2px solid var(--pink)}
+.tab.on{display:grid}
+.tab.full{grid-template-columns:1fr}
+.prev{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;box-shadow:0 20px 60px rgba(0,0,0,.6);border:1px solid var(--line)}
+.prev iframe{position:absolute;left:0;top:0;width:1920px;height:1080px;border:0;transform-origin:0 0}
+.note{color:var(--mut);font-size:13px;margin:8px 0 0}
+.side{display:flex;flex-direction:column;gap:12px}
+.box{background:var(--card);border:1px solid var(--line);padding:16px}
+.box h3{margin:0 0 10px;font:800 13px "Barlow Condensed";letter-spacing:.24em;color:#c9bfd6;text-transform:uppercase}
+label.f{display:flex;flex-direction:column;gap:5px;margin-top:9px;font:700 13px "Barlow Condensed";letter-spacing:.08em;text-transform:uppercase;color:#cfc6dc}
+input[type=text],input[type=number],input[type=time],select{background:#1b1723;border:1px solid #2f2840;color:#fff;padding:8px 10px;font:600 15px Barlow;outline:none;width:100%}
+input:focus,select:focus{border-color:var(--pink)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rule{display:grid;grid-template-columns:1fr 92px;align-items:center;gap:8px;margin-top:7px;font:700 15px "Barlow Condensed";letter-spacing:.04em}
+.rule small{display:block;color:var(--mut);font:500 12px Barlow;letter-spacing:0}
+.rule .in{display:flex;align-items:center;gap:6px}.rule .in span{color:var(--mut);font:600 13px Barlow}
+.sl{display:grid;grid-template-columns:70px 1fr 48px;align-items:center;gap:8px;margin-top:8px;font:700 13px "Barlow Condensed";letter-spacing:.06em;text-transform:uppercase;color:#cfc6dc}
+.sl output{text-align:right;color:var(--mut);font:500 12px Barlow}
+input[type=range]{width:100%;accent-color:var(--pink)}
+.seg{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.seg button{flex:1;background:#1b1723;border:1px solid #2f2840;color:#cfc6dc;padding:8px;font:700 13px "Barlow Condensed";letter-spacing:.08em;text-transform:uppercase;cursor:pointer;min-width:90px}
+.seg button.on{border-color:var(--pink);color:#fff;background:#2a1626}
+.chk{display:flex;align-items:center;gap:8px;margin-top:9px;font-size:14px;color:#ddd4e8;cursor:pointer}
+.chk input{accent-color:var(--pink);width:16px;height:16px}
+.btn{width:100%;border:0;padding:12px;font:800 15px "Barlow Condensed";letter-spacing:.16em;text-transform:uppercase;cursor:pointer;background:linear-gradient(90deg,var(--pink),var(--orange));color:#170a14;clip-path:polygon(0 0,100% 0,calc(100% - 10px) 100%,0 100%)}
+.btn.ghost{background:transparent;color:#cfc6dc;border:1px solid #3a3148;clip-path:none}
+.btn.ok{background:#6fdc8c}
+.link{width:100%;margin-top:8px;background:#0f0c15;border:1px solid #2f2840;color:#a69fb3;padding:7px 9px;font:500 12px ui-monospace,Consolas,monospace}
+.list{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.list .r{display:grid;gap:6px;align-items:center}
+.ch .r{grid-template-columns:1fr 70px 62px 28px}
+.rd .r{grid-template-columns:120px 1fr 28px}
+.list .x{background:#2a1626;border:1px solid #4a2340;color:#ff8fb8;cursor:pointer;height:36px;font:800 15px Barlow}
+.add{margin-top:8px;background:transparent;border:1px dashed #4a3a5c;color:#cfc6dc;width:100%;padding:8px;cursor:pointer;font:700 13px "Barlow Condensed";letter-spacing:.1em;text-transform:uppercase}
+.hd{display:grid;gap:6px;font:700 11px "Barlow Condensed";letter-spacing:.12em;color:var(--mut);text-transform:uppercase;margin-top:8px}
+.ch .hd{grid-template-columns:1fr 70px 62px 28px}
+code,.cmd b{background:#241d2e;border:1px solid #3a3148;padding:1px 6px;font:600 13px ui-monospace,Consolas,monospace;color:#ffd0e4}
+.cmd{margin:6px 0 0;padding-left:0;list-style:none}.cmd li{margin:7px 0;color:#d9d0e4}
+.steps{margin:8px 0 0;padding-left:20px;color:#d9d0e4}.steps li{margin:5px 0}.steps b{color:#fff}
+.warn{color:#ffb3cf;font-size:13px;margin-top:8px}
+.chatframe{width:100%;height:calc(100vh - 170px);min-height:640px;border:1px solid var(--line);background:#0c0a12}
+@media (max-width:1050px){.tab.on{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>OVERLAYS DA LIVE<i>MeikodRJ</i></h1><p class="sub">Monte cada overlay, copie o link e cole como <b>Fonte de navegador</b> (1920 × 1080) no OBS ou no Streamlabs.</p></div>
+</header>
+<nav id="nav"><button data-t="sub" class="on">Subathon</button><button data-t="redes">Redes sociais</button><button data-t="start">Starting</button><button data-t="chat">Chat</button></nav>
+
+<!-- ================= SUBATHON ================= -->
+<section class="tab on" id="t-sub">
+  <div>
+    <div class="prev"><iframe id="pvSub" title="Prévia do subathon"></iframe></div>
+    <p class="note">Prévia em cima de uma tela do jogo, com eventos de teste a cada poucos segundos. No OBS, a tela fica transparente e só o temporizador aparece.</p>
+    <div class="box" style="margin-top:14px">
+      <h3>Como funciona</h3>
+      <p style="margin:0;color:#d9d0e4">O tempo começa no valor inicial e vai descendo. Cada sub, gift, bits e doação <b>soma tempo</b> sozinho. Subs, gifts e bits vêm direto do chat da Twitch. As doações precisam do token do Streamlabs. O tempo fica salvo no próprio OBS, então se fechar e abrir de novo ele continua de onde parou.</p>
+      <h3 style="margin-top:16px">Comandos no chat (só você e os mods)</h3>
+      <ul class="cmd">
+        <li><b>!tempo +10</b> soma 10 minutos · <b>!tempo -5</b> tira 5 · <b>!tempo =90</b> deixa em 90 minutos</li>
+        <li><b>!pausar</b> e <b>!continuar</b> param e voltam o relógio (ex.: na hora de dormir)</li>
+        <li><b>!d 2</b> ativa o desafio 2: aparece o aviso na tela e soma ou tira o tempo dele</li>
+      </ul>
+      <h3 style="margin-top:16px">Desafios</h3>
+      <p style="margin:0;color:#d9d0e4">Com <b>valor em R$</b>, o desafio ativa sozinho quando alguém doa esse valor ou mais (aparece "fulano ativou: …"). Com <b>minutos</b>, vira uma regra que você ativa com <code>!d número</code>, por exemplo "se morrer pra polícia, +10 min". Os desafios aparecem um de cada vez, na mesma linha das regras, pra não encher a tela.</p>
+    </div>
+  </div>
+  <div class="side">
+    <div class="box">
+      <h3>Canal e tempo</h3>
+      <label class="f">Canal da Twitch<input type="text" id="s_canal" value="meikodrj"></label>
+      <div class="g2"><label class="f">Tempo inicial (horas)<input type="number" id="s_ini" value="2" min="0" step="0.25"></label><label class="f">Teto (horas, 0 = sem)<input type="number" id="s_max" value="0" min="0" step="1"></label></div>
+    </div>
+    <div class="box">
+      <h3>Quanto cada coisa soma</h3>
+      <div class="rule"><div>Sub / resub<small>tier 2 vale 2×, tier 3 vale 5×</small></div><div class="in"><input type="number" id="s_s" value="5" min="0" step="0.5"><span>min</span></div></div>
+      <div class="rule"><div>Cada sub de presente</div><div class="in"><input type="number" id="s_g" value="5" min="0" step="0.5"><span>min</span></div></div>
+      <div class="rule"><div>A cada 100 bits</div><div class="in"><input type="number" id="s_b" value="1" min="0" step="0.5"><span>min</span></div></div>
+      <div class="rule"><div>Doação: a cada <input type="number" id="s_dv" value="10" min="1" style="width:64px;display:inline-block;padding:4px 6px"> reais</div><div class="in"><input type="number" id="s_dm" value="2" min="0" step="0.5"><span>min</span></div></div>
+    </div>
+    <div class="box">
+      <h3>Visual e posição</h3>
+      <div class="seg" id="s_lay"><button data-v="b" class="on">Barra embaixo da câmera</button><button data-v="c">Card ao lado</button></div>
+      <div class="seg" id="s_pre"><button data-p="under">Embaixo da cam</button><button data-p="left">Ao lado da cam</button><button data-p="corner">Canto de baixo</button></div>
+      <div class="sl">X<input type="range" id="s_x" min="0" max="1900"><output></output></div>
+      <div class="sl">Y<input type="range" id="s_y" min="0" max="1060"><output></output></div>
+      <div class="sl">Largura<input type="range" id="s_w" min="300" max="1000"><output></output></div>
+      <div class="sl">Tamanho<input type="range" id="s_k" min="0.5" max="1.6" step="0.05"><output></output></div>
+      <div class="sl">Fundo<input type="range" id="s_op" min="0" max="1" step="0.02"><output></output></div>
+      <label class="chk"><input type="checkbox" id="s_ir" checked> Mostrar as regras (sub = +5 min…)</label>
+      <label class="chk"><input type="checkbox" id="s_ic" checked> Mostrar os desafios</label>
+    </div>
+    <div class="box ch">
+      <h3>Desafios</h3>
+      <div class="hd"><span>O que ele faz</span><span>R$</span><span>± min</span><span></span></div>
+      <div class="list" id="s_ch"></div>
+      <button class="add" id="s_add">+ adicionar desafio</button>
+    </div>
+    <div class="box">
+      <h3>Doações (opcional)</h3>
+      <label class="f">Socket API Token do Streamlabs<input type="text" id="s_tk" placeholder="cole aqui pra contar as doações"></label>
+      <p class="warn">Esse token fica dentro do link. Não mostre o link na live e não mande pra ninguém. Pegue em Streamlabs › Configurações › Configurações de API › Tokens de API.</p>
+    </div>
+    <div class="box">
+      <h3>Instalar</h3>
+      <button class="btn" id="s_copy">Copiar link do subathon</button>
+      <input class="link" id="s_link" readonly>
+      <ol class="steps"><li>No OBS ou Streamlabs, em <b>Fontes</b>, clique no <b>+</b> e escolha <b>Navegador</b> (Fonte de navegador).</li><li>Cole o link em <b>URL</b>. Largura <b>1920</b>, altura <b>1080</b>.</li><li><b>Não</b> marque "atualizar quando a cena ficar ativa", senão o relógio pode reiniciar.</li></ol>
+      <button class="btn ghost" id="s_new" style="margin-top:10px">Começar um subathon novo</button>
+      <p class="note">Gera um link novo com o relógio zerado no tempo inicial. Depois cole esse link novo na fonte do OBS. Mudar só as regras ou o visual não zera o tempo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= REDES ================= -->
+<section class="tab" id="t-redes">
+  <div>
+    <div class="prev"><iframe id="pvRedes" title="Prévia das redes"></iframe></div>
+    <p class="note">Animado mostra uma rede de cada vez, trocando sozinho. Estático mostra todas juntas. Com a pausa, as redes aparecem por um tempo e somem por alguns minutos, pra não ficar o tempo todo na tela.</p>
+  </div>
+  <div class="side">
+    <div class="box rd">
+      <h3>Redes</h3>
+      <div class="list" id="r_list"></div>
+      <button class="add" id="r_add">+ adicionar rede</button>
+    </div>
+    <div class="box">
+      <h3>Jeito de mostrar</h3>
+      <div class="seg" id="r_m"><button data-v="a" class="on">Animado (uma por vez)</button><button data-v="s">Estático (todas)</button></div>
+      <div class="seg" id="r_d"><button data-v="r" class="on">Em linha</button><button data-v="c">Em coluna</button></div>
+      <div class="sl">Cada uma<input type="range" id="r_t" min="3" max="20" step="1"><output></output></div>
+      <div class="sl">Pausa<input type="range" id="r_gap" min="0" max="20" step="1"><output></output></div>
+      <div class="seg" id="r_pre"><button data-p="bl">Canto inf. esq.</button><button data-p="br">Canto inf. dir.</button><button data-p="tl">Canto sup. esq.</button><button data-p="cam">Embaixo da cam</button></div>
+      <div class="sl">X<input type="range" id="r_x" min="0" max="1900"><output></output></div>
+      <div class="sl">Y<input type="range" id="r_y" min="0" max="1060"><output></output></div>
+      <div class="sl">Tamanho<input type="range" id="r_k" min="0.5" max="1.8" step="0.05"><output></output></div>
+      <div class="sl">Fundo<input type="range" id="r_op" min="0" max="1" step="0.02"><output></output></div>
+    </div>
+    <div class="box">
+      <h3>Instalar</h3>
+      <button class="btn" id="r_copy">Copiar link das redes</button>
+      <input class="link" id="r_link" readonly>
+      <ol class="steps"><li>Em <b>Fontes</b>, clique no <b>+</b> › <b>Navegador</b> (Fonte de navegador).</li><li>Cole o link em <b>URL</b>. Largura <b>1920</b>, altura <b>1080</b>.</li><li>Clique em <b>OK</b> (ou <b>Concluído</b>).</li></ol>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STARTING ================= -->
+<section class="tab" id="t-start">
+  <div>
+    <div class="prev"><iframe id="pvStart" title="Prévia do starting" allow="autoplay"></iframe></div>
+    <p class="note">A tela de Starting, 1 minuto em loop. Precisa de internet, porque os vídeos carregam do site.</p>
+  </div>
+  <div class="side">
+    <div class="box">
+      <h3>Contador no canto</h3>
+      <div class="seg" id="st_m"><button data-v="nao" class="on">Sem contador</button><button data-v="min">Minutos</button><button data-v="hora">Até o horário</button></div>
+      <div class="g2"><label class="f">Minutos<input type="number" id="st_min" value="10" min="1" max="180"></label><label class="f">Horário<input type="time" id="st_hora" value="20:00"></label></div>
+      <p class="note">"Minutos" começa a contar quando a cena abre. "Até o horário" usa o relógio do PC.</p>
+    </div>
+    <div class="box">
+      <h3>Instalar</h3>
+      <button class="btn" id="st_copy">Copiar link do starting</button>
+      <input class="link" id="st_link" readonly>
+      <ol class="steps"><li>Na cena de Starting, em <b>Fontes</b>, clique no <b>+</b> › <b>Navegador</b>.</li><li>Cole o link em <b>URL</b>. Largura <b>1920</b>, altura <b>1080</b>.</li><li>Marque <b>Atualizar navegador quando a cena se tornar ativa</b>, pra começar sempre do início.</li></ol>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CHAT ================= -->
+<section class="tab full" id="t-chat">
+  <iframe class="chatframe" id="chatF" title="Chat personalizado"></iframe>
+</section>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const BASE=location.href.replace(/[?#].*$/,'').replace(/[^/]*$/,'');
+const b64=o=>btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+let ST={};try{ST=JSON.parse(localStorage.getItem('obs.painel'))||{}}catch(e){}
+const saveST=()=>{try{localStorage.setItem('obs.painel',JSON.stringify(ST))}catch(e){}};
+function copyBtn(btn,input,label){btn.onclick=async()=>{try{await navigator.clipboard.writeText(input.value)}catch(e){input.select();document.execCommand('copy')}
+  btn.textContent='Link copiado ✓';btn.classList.add('ok');setTimeout(()=>{btn.textContent=label;btn.classList.remove('ok')},2000)};input.onclick=()=>input.select()}
+function scalePrev(){$$('.prev').forEach(p=>{const f=p.querySelector('iframe');f.style.transform=`scale(${p.clientWidth/1920})`})}
+addEventListener('resize',scalePrev);
+const debounce=(f,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>f(...a),ms)}};
+
+/* ---------- abas ---------- */
+function tab(t){$$('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));$$('.tab').forEach(s=>s.classList.toggle('on',s.id==='t-'+t));
+  if(t==='chat'&&!$('#chatF').src)$('#chatF').src=BASE+'chat.html';
+  ST.tab=t;saveST();scalePrev();history.replaceState(null,'','#'+t)}
+$('#nav').onclick=e=>{const t=e.target.dataset.t;if(t)tab(t)};
+
+/* ================= SUBATHON ================= */
+const SD={canal:'meikodrj',ini:2,max:0,s:5,g:5,b:1,dv:10,dm:2,lay:'b',x:1401,y:418,w:519,k:1,op:.88,ir:1,ic:1,tk:'',sid:Date.now().toString(36),
+  ch:[['Corrida só de moto até o próximo assalto',50,0],['Ficar 10 min sem atirar',100,0],['Se morrer pra polícia',0,10]]};
+const S=Object.assign({},SD,ST.sub||{});
+const PRE_S={under:{lay:'b',x:1401,y:418,w:519},left:{lay:'c',x:1000,y:121,w:390},corner:{lay:'b',x:40,y:970,w:620}};
+const fmtS={x:v=>v,y:v=>v,w:v=>v+'px',k:v=>Math.round(v*100)+'%',op:v=>Math.round(v*100)+'%'};
+function subUrl(extra){const q=new URLSearchParams({canal:S.canal.toLowerCase().replace(/[^a-z0-9_]/g,'')||'meikodrj',sid:S.sid,ini:Math.round(S.ini*60),max:Math.round(S.max*60),
+  s:S.s,g:S.g,b:S.b,dv:S.dv,dm:S.dm,lay:S.lay,x:S.x,y:S.y,w:S.w,k:S.k,op:S.op,ir:S.ir?1:0,ic:S.ic?1:0});
+  const ch=S.ch.filter(c=>c[0]&&c[0].trim());if(ch.length)q.set('ch',b64(ch));
+  if(extra)for(const k in extra)q.set(k,extra[k]);else if(S.tk)q.set('tk',S.tk);
+  return BASE+'subathon/index.html?'+q}
+const pvSub=debounce(()=>{$('#pvSub').src=subUrl({demo:1,bg:1})},350);
+function renderSub(){
+  for(const k of ['canal','ini','max','s','g','b','dv','dm','tk'])$('#s_'+k).value=S[k];
+  for(const k of ['x','y','w','k','op']){const el=$('#s_'+k);el.value=S[k];el.nextElementSibling.textContent=fmtS[k](+S[k])}
+  $('#s_ir').checked=!!S.ir;$('#s_ic').checked=!!S.ic;
+  $$('#s_lay button').forEach(b=>b.classList.toggle('on',b.dataset.v===S.lay));
+  $('#s_ch').innerHTML=S.ch.map((c,i)=>`<div class="r" data-i="${i}"><input type="text" data-k="0" value="${(c[0]||'').replace(/"/g,'&quot;')}" placeholder="ex.: só andar de moto"><input type="number" data-k="1" value="${c[1]||''}" placeholder="—" min="0"><input type="number" data-k="2" value="${c[2]||''}" placeholder="—"><button class="x" title="Remover">×</button></div>`).join('');
+  update()}
+function update(){ST.sub=S;saveST();$('#s_link').value=subUrl();pvSub()}
+for(const k of ['canal','ini','max','s','g','b','dv','dm','tk'])$('#s_'+k).addEventListener('input',e=>{S[k]=e.target.type==='number'?+e.target.value:e.target.value.trim();update()});
+for(const k of ['x','y','w','k','op'])$('#s_'+k).addEventListener('input',e=>{S[k]=+e.target.value;e.target.nextElementSibling.textContent=fmtS[k](S[k]);update()});
+$('#s_ir').onchange=e=>{S.ir=e.target.checked?1:0;update()};$('#s_ic').onchange=e=>{S.ic=e.target.checked?1:0;update()};
+$('#s_lay').onclick=e=>{const v=e.target.dataset.v;if(v&&v!==S.lay){Object.assign(S,v==='c'?PRE_S.left:PRE_S.under);renderSub()}};
+$('#s_pre').onclick=e=>{const p=PRE_S[e.target.dataset.p];if(p){Object.assign(S,p);renderSub()}};
+$('#s_ch').addEventListener('input',e=>{const r=e.target.closest('.r');if(!r)return;const c=S.ch[+r.dataset.i],k=+e.target.dataset.k;c[k]=k?(+e.target.value||0):e.target.value;update()});
+$('#s_ch').addEventListener('click',e=>{if(!e.target.classList.contains('x'))return;S.ch.splice(+e.target.closest('.r').dataset.i,1);renderSub()});
+$('#s_add').onclick=()=>{S.ch.push(['',0,0]);renderSub();const l=$$('#s_ch input[data-k="0"]');l[l.length-1].focus()};
+$('#s_new').onclick=()=>{if(!confirm('Começar um subathon novo? O link muda e o relógio volta pro tempo inicial quando você colar o link novo no OBS.'))return;S.sid=Date.now().toString(36);update();$('#s_copy').click()};
+copyBtn($('#s_copy'),$('#s_link'),'Copiar link do subathon');
+
+/* ================= REDES ================= */
+const NETS={tw:'Twitch',ig:'Instagram',tt:'TikTok',x:'X (Twitter)',yt:'YouTube',kk:'Kick',dc:'Discord'};
+const RD={list:[['tw','meikodrj'],['ig','@meikodrj'],['tt','@meikodrj']],m:'a',d:'r',t:6,gap:0,x:40,y:990,k:1,op:.88};
+const R=Object.assign({},RD,ST.redes||{});
+const PRE_R={bl:{x:40,y:990},br:{x:1500,y:990},tl:{x:40,y:40},cam:{x:1401,y:425}};
+const fmtR={t:v=>v+'s',gap:v=>v?v+' min':'nunca',x:v=>v,y:v=>v,k:v=>Math.round(v*100)+'%',op:v=>Math.round(v*100)+'%'};
+function redesUrl(extra){const q=new URLSearchParams({r:b64(R.list.filter(r=>r[1]&&r[1].trim())),m:R.m,d:R.d==='c'?'c':'r',t:R.t,gap:R.gap,x:R.x,y:R.y,k:R.k,op:R.op});if(extra)for(const k in extra)q.set(k,extra[k]);return BASE+'redes/index.html?'+q}
+const pvRedes=debounce(()=>{$('#pvRedes').src=redesUrl({bg:1})},350);
+function renderRedes(){
+  $('#r_list').innerHTML=R.list.map((r,i)=>`<div class="r" data-i="${i}"><select data-k="0">${Object.entries(NETS).map(([k,v])=>`<option value="${k}"${k===r[0]?' selected':''}>${v}</option>`).join('')}</select><input type="text" data-k="1" value="${(r[1]||'').replace(/"/g,'&quot;')}" placeholder="@usuario"><button class="x" title="Remover">×</button></div>`).join('');
+  for(const k of ['t','gap','x','y','k','op']){const el=$('#r_'+k);el.value=R[k];el.nextElementSibling.textContent=fmtR[k](+R[k])}
+  $$('#r_m button').forEach(b=>b.classList.toggle('on',b.dataset.v===R.m));$$('#r_d button').forEach(b=>b.classList.toggle('on',b.dataset.v===R.d));
+  updR()}
+function updR(){ST.redes=R;saveST();$('#r_link').value=redesUrl();pvRedes()}
+$('#r_list').addEventListener('input',e=>{const r=e.target.closest('.r');if(!r)return;R.list[+r.dataset.i][+e.target.dataset.k]=e.target.value;updR()});
+$('#r_list').addEventListener('change',e=>{if(e.target.tagName==='SELECT'){R.list[+e.target.closest('.r').dataset.i][0]=e.target.value;updR()}});
+$('#r_list').addEventListener('click',e=>{if(!e.target.classList.contains('x'))return;R.list.splice(+e.target.closest('.r').dataset.i,1);renderRedes()});
+$('#r_add').onclick=()=>{R.list.push(['ig','']);renderRedes()};
+for(const k of ['t','gap','x','y','k','op'])$('#r_'+k).addEventListener('input',e=>{R[k]=+e.target.value;e.target.nextElementSibling.textContent=fmtR[k](R[k]);updR()});
+$('#r_m').onclick=e=>{const v=e.target.dataset.v;if(v){R.m=v;renderRedes()}};$('#r_d').onclick=e=>{const v=e.target.dataset.v;if(v){R.d=v;renderRedes()}};
+$('#r_pre').onclick=e=>{const p=PRE_R[e.target.dataset.p];if(p){Object.assign(R,p);renderRedes()}};
+copyBtn($('#r_copy'),$('#r_link'),'Copiar link das redes');
+
+/* ================= STARTING ================= */
+const T=Object.assign({m:'nao',min:10,hora:'20:00'},ST.start||{});
+function startUrl(){let q='';if(T.m==='min')q='?contador='+Math.max(1,+T.min||10);if(T.m==='hora')q='?horario='+(T.hora||'20:00');return BASE.replace(/obs\/$/,'')+'starting/index.html'+q}
+function renderStart(){$$('#st_m button').forEach(b=>b.classList.toggle('on',b.dataset.v===T.m));$('#st_min').value=T.min;$('#st_hora').value=T.hora;
+  ST.start=T;saveST();const u=startUrl();$('#st_link').value=u;if($('#t-start').classList.contains('on')&&$('#pvStart').src!==u)$('#pvStart').src=u}
+$('#st_m').onclick=e=>{const v=e.target.dataset.v;if(v){T.m=v;renderStart()}};
+$('#st_min').oninput=e=>{T.min=+e.target.value;T.m='min';renderStart()};$('#st_hora').oninput=e=>{T.hora=e.target.value;T.m='hora';renderStart()};
+copyBtn($('#st_copy'),$('#st_link'),'Copiar link do starting');
+$('#nav').addEventListener('click',e=>{if(e.target.dataset.t==='start')renderStart()});
+
+renderSub();renderRedes();renderStart();
+tab((location.hash||'').slice(1)||ST.tab||'sub');
+</script>
+</body>
+</html>
