@@ -65,12 +65,12 @@ code,.cmd b{background:#241d2e;border:1px solid #3a3148;padding:1px 6px;font:600
 <header>
   <div><h1>OVERLAYS DA LIVE<i>MeikodRJ</i></h1><p class="sub">Monte cada overlay, copie o link e cole como <b>Fonte de navegador</b> (1920 × 1080) no OBS ou no Streamlabs.</p></div>
 </header>
-<nav id="nav"><button data-t="sub" class="on">Subathon</button><button data-t="redes">Redes sociais</button><button data-t="start">Starting</button><button data-t="chat">Chat</button></nav>
+<nav id="nav"><button data-t="sub" class="on">Pixathon</button><button data-t="redes">Redes sociais</button><button data-t="start">Starting</button><button data-t="chat">Chat</button></nav>
 
-<!-- ================= SUBATHON ================= -->
+<!-- ================= PIXATHON ================= -->
 <section class="tab on" id="t-sub">
   <div>
-    <div class="prev"><iframe id="pvSub" title="Prévia do subathon"></iframe></div>
+    <div class="prev"><iframe id="pvSub" title="Prévia do pixathon"></iframe></div>
     <p class="note">Prévia em cima de uma tela do jogo, com eventos de teste a cada poucos segundos. No OBS, a tela fica transparente e só o temporizador aparece.</p>
     <div class="box" style="margin-top:14px">
       <h3>Como funciona</h3>
@@ -96,7 +96,7 @@ code,.cmd b{background:#241d2e;border:1px solid #3a3148;padding:1px 6px;font:600
       <div class="rule"><div>Sub / resub<small>tier 2 vale 2×, tier 3 vale 5×</small></div><div class="in"><input type="number" id="s_s" value="5" min="0" step="0.5"><span>min</span></div></div>
       <div class="rule"><div>Cada sub de presente</div><div class="in"><input type="number" id="s_g" value="5" min="0" step="0.5"><span>min</span></div></div>
       <div class="rule"><div>A cada 100 bits</div><div class="in"><input type="number" id="s_b" value="1" min="0" step="0.5"><span>min</span></div></div>
-      <div class="rule"><div>Doação: a cada <input type="number" id="s_dv" value="10" min="1" style="width:64px;display:inline-block;padding:4px 6px"> reais</div><div class="in"><input type="number" id="s_dm" value="2" min="0" step="0.5"><span>min</span></div></div>
+      <div class="rule"><div>Pix / doação: a cada <input type="number" id="s_dv" value="10" min="1" style="width:64px;display:inline-block;padding:4px 6px"> reais</div><div class="in"><input type="number" id="s_dm" value="2" min="0" step="0.5"><span>min</span></div></div>
     </div>
     <div class="box">
       <h3>Visual e posição</h3>
@@ -117,16 +117,16 @@ code,.cmd b{background:#241d2e;border:1px solid #3a3148;padding:1px 6px;font:600
       <button class="add" id="s_add">+ adicionar desafio</button>
     </div>
     <div class="box">
-      <h3>Doações (opcional)</h3>
-      <label class="f">Socket API Token do Streamlabs<input type="text" id="s_tk" placeholder="cole aqui pra contar as doações"></label>
+      <h3>Pix e doações</h3>
+      <label class="f">Socket API Token do Streamlabs<input type="text" id="s_tk" placeholder="cole aqui pra contar os Pix e doações"></label>
       <p class="warn">Esse token fica dentro do link. Não mostre o link na live e não mande pra ninguém. Pegue em Streamlabs › Configurações › Configurações de API › Tokens de API.</p>
     </div>
     <div class="box">
       <h3>Instalar</h3>
-      <button class="btn" id="s_copy">Copiar link do subathon</button>
+      <button class="btn" id="s_copy">Copiar link do pixathon</button>
       <input class="link" id="s_link" readonly>
       <ol class="steps"><li>No OBS ou Streamlabs, em <b>Fontes</b>, clique no <b>+</b> e escolha <b>Navegador</b> (Fonte de navegador).</li><li>Cole o link em <b>URL</b>. Largura <b>1920</b>, altura <b>1080</b>.</li><li><b>Não</b> marque "atualizar quando a cena ficar ativa", senão o relógio pode reiniciar.</li></ol>
-      <button class="btn ghost" id="s_new" style="margin-top:10px">Começar um subathon novo</button>
+      <button class="btn ghost" id="s_new" style="margin-top:10px">Começar um pixathon novo</button>
       <p class="note">Gera um link novo com o relógio zerado no tempo inicial. Depois cole esse link novo na fonte do OBS. Mudar só as regras ou o visual não zera o tempo.</p>
     </div>
   </div>
@@ -210,7 +210,7 @@ function tab(t){$$('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t
   ST.tab=t;saveST();scalePrev();history.replaceState(null,'','#'+t)}
 $('#nav').onclick=e=>{const t=e.target.dataset.t;if(t)tab(t)};
 
-/* ================= SUBATHON ================= */
+/* ================= PIXATHON ================= */
 const SD={canal:'meikodrj',ini:2,max:0,s:5,g:5,b:1,dv:10,dm:2,lay:'b',x:1401,y:418,w:519,k:1,op:.88,ir:1,ic:1,tk:'',sid:Date.now().toString(36),
   ch:[['Corrida só de moto até o próximo assalto',50,0],['Ficar 10 min sem atirar',100,0],['Se morrer pra polícia',0,10]]};
 const S=Object.assign({},SD,ST.sub||{});
@@ -238,8 +238,8 @@ $('#s_pre').onclick=e=>{const p=PRE_S[e.target.dataset.p];if(p){Object.assign(S,
 $('#s_ch').addEventListener('input',e=>{const r=e.target.closest('.r');if(!r)return;const c=S.ch[+r.dataset.i],k=+e.target.dataset.k;c[k]=k?(+e.target.value||0):e.target.value;update()});
 $('#s_ch').addEventListener('click',e=>{if(!e.target.classList.contains('x'))return;S.ch.splice(+e.target.closest('.r').dataset.i,1);renderSub()});
 $('#s_add').onclick=()=>{S.ch.push(['',0,0]);renderSub();const l=$$('#s_ch input[data-k="0"]');l[l.length-1].focus()};
-$('#s_new').onclick=()=>{if(!confirm('Começar um subathon novo? O link muda e o relógio volta pro tempo inicial quando você colar o link novo no OBS.'))return;S.sid=Date.now().toString(36);update();$('#s_copy').click()};
-copyBtn($('#s_copy'),$('#s_link'),'Copiar link do subathon');
+$('#s_new').onclick=()=>{if(!confirm('Começar um pixathon novo? O link muda e o relógio volta pro tempo inicial quando você colar o link novo no OBS.'))return;S.sid=Date.now().toString(36);update();$('#s_copy').click()};
+copyBtn($('#s_copy'),$('#s_link'),'Copiar link do pixathon');
 
 /* ================= REDES ================= */
 const NETS={tw:'Twitch',ig:'Instagram',tt:'TikTok',x:'X (Twitter)',yt:'YouTube',kk:'Kick',dc:'Discord'};

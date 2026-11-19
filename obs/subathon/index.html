@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<title>Subathon — MeikodRJ</title>
+<title>Pixathon — MeikodRJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@500;600&family=Yellowtail&display=swap" rel="stylesheet">
 <style>
@@ -100,8 +100,8 @@ const W=$('#w'),box=$('#box');
 Object.assign(W.style,{left:C.x+'px',top:C.y+'px',width:C.w+'px',transform:`scale(${C.k})`});
 W.style.setProperty('--op',C.op);
 const RULES=[['SUB',C.sub],['GIFT',C.gift],['100 BITS',C.bits],[brl(C.dv),C.dm]].filter(r=>r[1]>0);
-if(C.lay==='b') box.innerHTML='<div class="slab bar"><div class="head"><div class="lbl"><b>SUBATHON</b></div><div class="sc">MeikodRJ</div></div><div class="clock" id="clk"></div><div class="info" id="info"></div></div>';
-else{box.innerHTML='<div class="slab card'+(C.ir?'':' nor')+'"><div class="head"><div class="lbl"><b>SUBATHON</b></div><div class="sc">MeikodRJ</div></div><div class="clock" id="clk"></div>'+
+if(C.lay==='b') box.innerHTML='<div class="slab bar"><div class="head"><div class="lbl"><b>PIXATHON</b></div><div class="sc">MeikodRJ</div></div><div class="clock" id="clk"></div><div class="info" id="info"></div></div>';
+else{box.innerHTML='<div class="slab card'+(C.ir?'':' nor')+'"><div class="head"><div class="lbl"><b>PIXATHON</b></div><div class="sc">MeikodRJ</div></div><div class="clock" id="clk"></div>'+
   '<div class="rules">'+RULES.map(r=>`<div>${r[0]}<b>${mtxt(r[1])}</b></div>`).join('')+'</div><div class="info" id="info"></div></div>'}
 
 /* ===== estado do tempo (fica salvo no próprio OBS) ===== */
